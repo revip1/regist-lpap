@@ -43,4 +43,38 @@ class TicketController extends Controller
             'data' => $ticket
         ], 201);
     }
+
+    public function show($id) {
+        $ticket = Ticket::with('program')->find($id);
+        if ($ticket) {
+            return response()->json(['message' => 'Data Ticket berhasil diambil', 'data' => $ticket], HttpResponse::HTTP_OK);
+        } else {
+            return response()->json(['message' => 'Data Ticket tidak ditemukan'], HttpResponse::HTTP_NOT_FOUND);
+        }
+    }
+
+    public function update(Request $request, $id) {
+        $data = $request->validate([
+            'program_id' => 'sometimes|exists:programs,id',
+            'batch' => 'sometimes',
+        ]);
+
+        $ticket = Ticket::find($id);
+        if ($ticket) {
+            $ticket->update($data);
+            return response()->json(['message' => 'Data Ticket berhasil diubah', 'data' => $ticket], HttpResponse::HTTP_OK);
+        } else {
+            return response()->json(['message' => 'Data Ticket tidak ditemukan'], HttpResponse::HTTP_NOT_FOUND);
+        }
+    }
+
+    public function destroy($id) {
+        $ticket = Ticket::find($id);
+        if ($ticket) {
+            $ticket->delete();
+            return response()->json(['message' => 'Data Ticket berhasil dihapus'], HttpResponse::HTTP_OK);
+        } else {
+            return response()->json(['message' => 'Data Ticket tidak ditemukan'], HttpResponse::HTTP_NOT_FOUND);
+        }
+    }
 }
