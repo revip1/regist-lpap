@@ -11,7 +11,7 @@ use Illuminate\Http\Response as HttpResponse;
 class TicketController extends Controller
 {
     public function index() {
-        $ticket = Ticket::latest()->paginate(10);
+        $ticket = Ticket::with('program')->paginate(10);
         return response()->json(['message' => 'Data Spesialis berhasil diambil', 'data' => $ticket], HttpResponse::HTTP_OK);
     }
 
@@ -42,6 +42,5 @@ class TicketController extends Controller
             'message' => 'Data Ticket berhasil ditambahkan',
             'data' => $ticket
         ], 201);
-
     }
 }
