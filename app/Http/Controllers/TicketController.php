@@ -11,8 +11,14 @@ use Illuminate\Http\Response as HttpResponse;
 class TicketController extends Controller
 {
     public function index() {
-        $ticket = Ticket::with('program')->paginate(10);
-        return response()->json(['message' => 'Data Spesialis berhasil diambil', 'data' => $ticket], HttpResponse::HTTP_OK);
+        $tickets = Ticket::with('program')->get();
+    return view('tickets.index', compact('tickets'));
+    }
+
+    public function create()
+    {
+        $programs = Program::all();
+        return view('tickets.create', compact('programs'));
     }
 
     public function store(Request $request) {
@@ -30,7 +36,7 @@ class TicketController extends Controller
 
         $participantNumber = str_pad($existingTicketsCount + 1, 3, '0', STR_PAD_LEFT);
 
-        $uniqueCode = "LPAP-{$programCode}{$data['batch']}{$year}-{$participantNumber}";
+        $uniqueCode = "LPAP-{$programCode}G{$data['batch']}{$year}-{$participantNumber}";
 
         $ticket = Ticket::create([
             'program_id' => $data['program_id'],
@@ -38,10 +44,7 @@ class TicketController extends Controller
             'unique_code' => $uniqueCode
         ]);
 
-        return response()->json([
-            'message' => 'Data Ticket berhasil ditambahkan',
-            'data' => $ticket
-        ], 201);
+        return redirect()->route('tickets.index')->with('success', 'Data Ticket berhasil ditambahkan!');
     }
 
     public function show($id) {
@@ -53,6 +56,13 @@ class TicketController extends Controller
         }
     }
 
+    public function edit($id)
+    {
+        $ticket = Ticket::findOrFail($id);
+        $programs = Program::all();
+        return view('tickets.edit', compact('ticket', 'programs'));
+    }
+
     public function update(Request $request, $id) {
         $data = $request->validate([
             'program_id' => 'sometimes|exists:programs,id',
@@ -62,9 +72,9 @@ class TicketController extends Controller
         $ticket = Ticket::find($id);
         if ($ticket) {
             $ticket->update($data);
-            return response()->json(['message' => 'Data Ticket berhasil diubah', 'data' => $ticket], HttpResponse::HTTP_OK);
+            return redirect()->route('tickets.index')->with('success', 'Data Ticket berhasil diperbarui!');
         } else {
-            return response()->json(['message' => 'Data Ticket tidak ditemukan'], HttpResponse::HTTP_NOT_FOUND);
+            return redirect()->route('tickets.edit')->with('error', 'Data Ticket tidak berhasil diperbarui!');
         }
     }
 
@@ -72,9 +82,9 @@ class TicketController extends Controller
         $ticket = Ticket::find($id);
         if ($ticket) {
             $ticket->delete();
-            return response()->json(['message' => 'Data Ticket berhasil dihapus'], HttpResponse::HTTP_OK);
+            return redirect()->route('tickets.index')->with('success', 'Data Ticket berhasil dihapus!');
         } else {
-            return response()->json(['message' => 'Data Ticket tidak ditemukan'], HttpResponse::HTTP_NOT_FOUND);
+            return redirect()->route('tickets.index')->with('success', 'Data Ticket gagal dihapus!');
         }
     }
 }

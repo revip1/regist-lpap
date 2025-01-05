@@ -9,8 +9,8 @@ class ProgramController extends Controller
 {
     public function index()
     {
-        $program = Program::latest()->paginate(10);
-        return response()->json(['message' => 'Data Program berhasil diambil', 'data' => $program]);
+        $programs = Program::latest()->paginate(10);
+        return view('programs.index', compact('programs'));
     }
 
     public function show($id){
@@ -22,40 +22,76 @@ class ProgramController extends Controller
         }
     }
 
+    public function create(){
+        return view('programs.create');
+    }
+
     public function store(Request $request){
+        try {
+            // Validasi data
+            $data = $request->validate([
+                'name' => 'required|string|max:255',
+                'label' => 'required|string|max:255',
+                'description' => 'required|string',
+                'code' => 'required|string|max:10|unique:programs',
+            ]);
+    
+            // Simpan data ke database
+            Program::create($data);
+    
+            return redirect()->route('programs.index')->with('success', 'Program berhasil ditambahkan.');
+        } catch (\Illuminate\Database\QueryException $e) {
+            return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan saat menyimpan data. Silakan coba lagi.');
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan. Silakan coba lagi.');
+        }
+    }
+
+    public function edit($id)
+    {
+        $program = Program::find($id);
+
+        if (!$program) {
+            return redirect()->route('programs.index')->with('error', 'Program tidak ditemukan.');
+        }
+
+        return view('programs.edit', compact('program'));
+    }
+
+
+    public function update(Request $request, $id)
+    {
+        // Validasi data
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'label' => 'required|string|max:255',
             'description' => 'required|string',
-            'code' => 'required|string|max:10|unique:programs',
+            'code' => 'required|string|max:10|unique:programs,code,' . $id,
         ]);
 
-        $program = Program::create($data);
-        return response()->json(['message' => 'Data Program berhasil ditambahkan', 'data' => $program], 201);
-    }
-
-    public function update(Request $request, $id){
-        $data = $request->validate([
-            'name' => 'sometimes|string|max:255',
-            'code' => 'sometimes|string|max:10|unique:programs,code,' . $id,
-        ]);
-
+        // Cari program berdasarkan ID
         $program = Program::find($id);
-        if($program){
-            $program->update($data);
-            return response()->json(['message' => 'Data Program berhasil diubah', 'data' => $program]);
-        } else {
-            return response()->json(['message' => 'Data Program tidak ditemukan'], 404);
+
+        if (!$program) {
+            // Jika program tidak ditemukan, redirect dengan pesan error
+            return redirect()->route('programs.index')->with('error', 'Program tidak ditemukan.');
         }
+
+        // Update data program
+        $program->update($data);
+
+        // Redirect ke halaman index dengan pesan sukses
+        return redirect()->route('programs.index')->with('success', 'Program berhasil diperbarui.');
     }
+
 
     public function destroy($id){
         $program = Program::find($id);
         if($program){
             $program->delete();
-            return response()->json(['message' => 'Data Program berhasil dihapus']);
+            return redirect()->route('programs.index')->with('success', 'Program telah dihapus.');
         } else {
-            return response()->json(['message' => 'Data Program tidak ditemukan'], 404);
+            return redirect()->route('programs.index')->with('error', 'Program tidak ditemukan.');
         }
     }
 }
