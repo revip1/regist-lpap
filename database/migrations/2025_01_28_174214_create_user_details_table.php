@@ -13,14 +13,12 @@ return new class extends Migration
     {
         Schema::create('user_details', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('ticket_id')->constrained('tickets')->onDelete('cascade');
             $table->string('full_name');
             $table->string('whatsapp_number');
             $table->string('email');
             $table->text('address');
-            $table->string('occupation');
-            $table->string('institution');
-            $table->string('training_ticket');
             $table->text('reason_to_join')->nullable();
             $table->string('information_source')->nullable();
             $table->string('referral')->nullable();

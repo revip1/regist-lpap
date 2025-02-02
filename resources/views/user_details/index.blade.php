@@ -10,6 +10,7 @@
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
+    <a href="{{ route('user_details.export-excel') }}" class="btn btn-success mb-3">Export to Excel</a>
     <table class="table">
         <thead>
             <tr>
@@ -19,6 +20,7 @@
                 <th>Email</th>
                 <th>Kode Tiket</th>
                 <th>Sertifikat</th>
+                <th>Export PDF</th> <!-- New Column for Export PDF -->
             </tr>
         </thead>
         <tbody>
@@ -36,6 +38,15 @@
                             </a>
                         @else
                             <span class="text-danger">Sertifikat tidak tersedia</span>
+                        @endif
+                    </td>
+                    <td> <!-- Export PDF Button -->
+                        @if($userDetail->ticket)
+                            <a href="{{ route('user_details.export-pdf', $userDetail->id) }}" class="btn btn-success">
+                                Export PDF
+                            </a>
+                        @else
+                            <span class="text-danger">Tidak tersedia</span>
                         @endif
                     </td>
                 </tr>

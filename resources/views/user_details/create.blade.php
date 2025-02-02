@@ -5,7 +5,7 @@
 
 @section('content')
 <div class="container">
-    <h2>Form Tambah User Detail</h2>
+    <h2>Registrasi User LPAP</h2>
     <form action="{{ route('user_details.store') }}" method="POST">
         @csrf
         <div class="mb-3">

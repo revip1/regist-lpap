@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Ticket;
 use App\Models\UserDetail;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class UserDetailController extends Controller
 {
@@ -40,7 +41,7 @@ class UserDetailController extends Controller
             'email' => 'required|email|unique:user_details',
             'address' => 'required|string|max:255',
             'occupation' => 'required|string|max:255',
-            'institution' => 'required|string|max:255',
+            'instance' => 'required|string|max:255',
             'reason' => 'required|string|max:255',
             'source_of_info' => 'required|string|max:255',
             'referral' => 'nullable|string|max:255',
@@ -85,7 +86,7 @@ class UserDetailController extends Controller
             'email' => 'sometimes|email|unique:user_details,email,' . $id,
             'address' => 'sometimes|string|max:255',
             'occupation' => 'sometimes|string|max:255',
-            'institution' => 'sometimes|string|max:255',
+            'instance' => 'sometimes|string|max:255',
             'reason' => 'sometimes|string|max:255',
             'source_of_info' => 'sometimes|string|max:255',
             'referral' => 'nullable|string|max:255',
@@ -120,4 +121,28 @@ class UserDetailController extends Controller
 
         return redirect()->route('user_details.index')->with('success', 'Data User Detail berhasil dihapus');
     }
+
+    public function exportPdf($id)
+    {
+        $userDetail = UserDetail::with('ticket.program')->find($id);
+
+        if (!$userDetail) {
+            abort(404, 'User not found');
+        }
+
+        // Render Blade view to HTML
+        $html = view('user_details.certificate', compact('userDetail'))->render();
+
+        // Generate PDF with Dompdf
+        $pdf = Pdf::loadHTML($html)->setPaper('a4', 'landscape');
+
+        // Return PDF as download
+        return $pdf->download("certificate_{$userDetail->full_name}_{$userDetail->ticket->program->name}.pdf");
+    }
+    
+    public function exportExcel()
+    {
+        return \Maatwebsite\Excel\Facades\Excel::download(new \App\Exports\UserDetailsExport, 'user_details.xlsx');
+    }
+    
 }

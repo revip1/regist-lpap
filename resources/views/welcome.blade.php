@@ -115,19 +115,41 @@
         <div class="container d-flex justify-content-between align-items-center">
             <h1 class="mb-0">LPAP</h1>
             <!-- Navigation -->
-            <nav>
-                <ul class="nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('programs.index') }}">Program</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('tickets.index') }}">Tiket</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('user_details.index') }}">Registrasi LPAP</a>
-                    </li>
-                </ul>
-            </nav>
+            <!-- Navigation -->
+<nav>
+    <ul class="nav">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('programs.index') }}">Program</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('tickets.index') }}">Tiket</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('user_details.index') }}">Registrasi LPAP</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="contacts">Contact</a>
+        </li>
+
+        <!-- Authentication Links -->
+        @auth
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="nav-link btn btn-link text-white p-0">Logout</button>
+                </form>
+            </li>
+        @endauth
+        @guest
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('login') }}">Login</a>
+            </li>
+        @endguest
+    </ul>
+</nav>
         </div>
     </div>
 
