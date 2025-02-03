@@ -23,7 +23,7 @@
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $ticket->program->name }}</td>
-                    <td>{{ $ticket->batch }}</td>
+                    <td>{{ $ticket->batch->name }}</td>
                     <td>{{ $ticket->unique_code }}</td>
                     <td>
                         <a href="{{ route('tickets.edit', $ticket->id) }}" class="btn btn-warning btn-sm">Edit</a>

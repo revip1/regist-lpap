@@ -8,9 +8,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class UserDetail extends Model
 {
     protected $fillable = [
-        'ticket_id', 'full_name', 'whatsapp_number', 'email', 
-        'address', 'occupation', 'institution', 
-        'reason_to_join', 'information_source', 'referral'
+        'user_id',
+        'ticket_id',
+        'address',
+        'reason_to_join',
+        'phone_number',
+        'information_source',
+        'referral',
     ];
 
     public function ticket()

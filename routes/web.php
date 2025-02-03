@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BatchController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProgramController;
@@ -34,7 +35,8 @@ Route::prefix('user-details')->name('user_details.')->group(function () {
     Route::get('/{id}/export-pdf', [UserDetailController::class, 'exportPdf'])->name('export_pdf');
     Route::get('/export-excel', [UserDetailController::class, 'exportExcel'])->name('export_excel');
 });
-
+Route::get('/user_details/{id}/export-pdf', [UserDetailController::class, 'exportPdf'])->name('user_details.export-pdf');
+Route::get('/user-details/export-excel', [UserDetailController::class, 'exportExcel'])->name('user_details.export-excel');
 // Routes untuk TicketController
 Route::prefix('tickets')->name('tickets.')->group(function () {
     Route::get('/', [TicketController::class, 'index'])->name('index');
@@ -55,6 +57,16 @@ Route::prefix('programs')->name('programs.')->group(function () {
     Route::get('/{id}/edit', [ProgramController::class, 'edit'])->name('edit');  // Jika ada edit data
     Route::put('/{id}', [ProgramController::class, 'update'])->name('update');   // Jika ada update data
     Route::delete('/{id}', [ProgramController::class, 'destroy'])->name('destroy'); // Jika ada hapus data
+});
+
+Route::prefix('batches')->name('batches.')->group(function () {
+    Route::get('/', [BatchController::class, 'index'])->name('index');
+    Route::get('/create', [BatchController::class, 'create'])->name('create');
+    Route::post('/', [BatchController::class, 'store'])->name('store');
+    Route::get('/{id}', [BatchController::class, 'show'])->name('show');
+    Route::get('/{id}/edit', [BatchController::class, 'edit'])->name('edit');
+    Route::put('/{id}', [BatchController::class, 'update'])->name('update');
+    Route::delete('/{id}', [BatchController::class, 'destroy'])->name('destroy');
 });
 
 Route::get('/contacts', [ContactController::class, 'index'])->name('contacts.index')->middleware('auth');

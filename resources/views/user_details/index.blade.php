@@ -14,7 +14,7 @@
     <table class="table">
         <thead>
             <tr>
-                <th>#</th>
+                <th>ID</th>
                 <th>Nama Lengkap</th>
                 <th>Nomor WhatsApp</th>
                 <th>Email</th>
@@ -27,9 +27,9 @@
             @foreach($userDetails as $userDetail)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $userDetail->full_name }}</td>
-                    <td>{{ $userDetail->whatsapp_number }}</td>
-                    <td>{{ $userDetail->email }}</td>
+                    <td>{{ $userDetail->user->name ?? 'Tidak tersedia' }}</td>
+                    <td>{{ $userDetail->phone_number ?? 'Tidak tersedia' }}</td>
+                    <td>{{ $userDetail->user->email ?? 'Tidak tersedia' }}</td>
                     <td>{{ $userDetail->ticket->unique_code ?? 'Tiket tidak tersedia' }}</td>
                     <td>
                         @if($userDetail->ticket)

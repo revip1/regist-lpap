@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('batches', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('program_id')->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->integer('limit');
             $table->timestamps();

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ticket;
+use App\Models\User;
 use App\Models\UserDetail;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -11,133 +12,98 @@ class UserDetailController extends Controller
 {
     public function index()
     {
-        $userDetails = UserDetail::with('ticket')->paginate(10);
+        $userDetails = UserDetail::with(['ticket', 'user'])->paginate(10);
         return view('user_details.index', compact('userDetails'));
     }
 
     public function create()
     {
-        $tikets = Ticket::all();
-        return view('user_details.create', compact('tikets'));
-    }
+        $tickets = Ticket::all();
+        $users = User::all();
+        $loggedUser = auth()->user();
 
-    public function certificate($id)
-    {
-        $userDetail = UserDetail::with('ticket')->find($id);
-
-        if (!$userDetail) {
-            return redirect()->route('user_details.index')->with('error', 'Data User Detail tidak ditemukan');
-        }
-
-        return view('user_details.certificate', compact('userDetail'));
+        return view('user_details.create', compact('tickets', 'users', 'loggedUser'));
     }
 
 
     public function store(Request $request)
     {
         $data = $request->validate([
-            'full_name' => 'required|string|max:255',
-            'whatsapp_number' => 'required|string|max:15',
-            'email' => 'required|email|unique:user_details',
-            'address' => 'required|string|max:255',
-            'occupation' => 'required|string|max:255',
-            'instance' => 'required|string|max:255',
-            'reason' => 'required|string|max:255',
-            'source_of_info' => 'required|string|max:255',
-            'referral' => 'nullable|string|max:255',
             'ticket_id' => 'required|exists:tickets,id',
+            'user_id' => 'required|exists:users,id',
+            'phone_number' => 'required|string|max:15',
+            'address' => 'required|string|max:255',
+            'reason_to_join' => 'required|string',
+            'information_source' => 'required|string',
+            'referral' => 'required|string',
         ]);
 
-        // Cek apakah tiket sudah digunakan
-        $ticket = Ticket::find($data['ticket_id']);
-        $isTicketUsed = UserDetail::where('ticket_id', $ticket->id)->exists();
-
+        // Check if ticket is already used
+        $isTicketUsed = UserDetail::where('ticket_id', $data['ticket_id'])->exists();
         if ($isTicketUsed) {
-            return redirect()->back()->withErrors(['ticket_id' => 'Kode tiket sudah digunakan, pilih tiket lain.']);
+            return redirect()->back()->withErrors(['ticket_id' => 'Ticket is already in use']);
         }
 
         UserDetail::create($data);
 
-        return redirect()->route('user_details.index')->with('success', 'Data User Detail berhasil ditambahkan');
+        return redirect()->route('user_details.index')->with('success', 'User Detail created successfully');
     }
 
     public function edit($id)
     {
-        $userDetail = UserDetail::find($id);
-
-        if (!$userDetail) {
-            return redirect()->route('user_details.index')->with('error', 'Data User Detail tidak ditemukan');
-        }
-
-        return view('user_details.edit', compact('userDetail'));
+        $userDetail = UserDetail::findOrFail($id);
+        $tickets = Ticket::all();
+        $users = User::all();
+        
+        return view('user_details.edit', compact('userDetail', 'tickets', 'users'));
     }
 
     public function update(Request $request, $id)
     {
-        $userDetail = UserDetail::find($id);
-
-        if (!$userDetail) {
-            return redirect()->route('user_details.index')->with('error', 'Data User Detail tidak ditemukan');
-        }
+        $userDetail = UserDetail::findOrFail($id);
 
         $data = $request->validate([
-            'full_name' => 'sometimes|string|max:255',
-            'whatsapp_number' => 'sometimes|string|max:15',
-            'email' => 'sometimes|email|unique:user_details,email,' . $id,
-            'address' => 'sometimes|string|max:255',
-            'occupation' => 'sometimes|string|max:255',
-            'instance' => 'sometimes|string|max:255',
-            'reason' => 'sometimes|string|max:255',
-            'source_of_info' => 'sometimes|string|max:255',
-            'referral' => 'nullable|string|max:255',
             'ticket_id' => 'sometimes|exists:tickets,id',
+            'user_id' => 'sometimes|exists:users,id',
+            'phone_number' => 'sometimes|string|max:15',
+            'address' => 'sometimes|string|max:255',
         ]);
 
-        // Jika ticket_id diubah, validasi apakah tiket sudah digunakan
-        if (isset($data['ticket_id']) && $data['ticket_id'] != $userDetail->ticket_id) {
-            $ticket = Ticket::find($data['ticket_id']);
-            $isTicketUsed = UserDetail::where('ticket_id', $ticket->id)->exists();
-
+        // If ticket_id is being changed, check if new ticket is already in use
+        if (isset($data['ticket_id']) && $data['ticket_id'] !== $userDetail->ticket_id) {
+            $isTicketUsed = UserDetail::where('ticket_id', $data['ticket_id'])->exists();
             if ($isTicketUsed) {
-                return redirect()->back()->withErrors(['ticket_id' => 'Kode tiket sudah digunakan, pilih tiket lain.']);
+                return redirect()->back()->withErrors(['ticket_id' => 'Ticket is already in use']);
             }
         }
 
         $userDetail->update($data);
 
-        return redirect()->route('user_details.index')->with('success', 'Data User Detail berhasil diubah');
+        return redirect()->route('user_details.index')->with('success', 'User Detail updated successfully');
     }
-
 
     public function destroy($id)
     {
-        $userDetail = UserDetail::find($id);
-
-        if (!$userDetail) {
-            return redirect()->route('user_details.index')->with('error', 'Data User Detail tidak ditemukan');
-        }
-
+        $userDetail = UserDetail::findOrFail($id);
         $userDetail->delete();
 
-        return redirect()->route('user_details.index')->with('success', 'Data User Detail berhasil dihapus');
+        return redirect()->route('user_details.index')->with('success', 'User Detail deleted successfully');
+    }
+
+    public function certificate($id)
+    {
+        $userDetail = UserDetail::with(['ticket', 'user'])->findOrFail($id);
+        return view('user_details.certificate', compact('userDetail'));
     }
 
     public function exportPdf($id)
     {
-        $userDetail = UserDetail::with('ticket.program')->find($id);
+        $userDetail = UserDetail::with(['ticket', 'user'])->findOrFail($id);
 
-        if (!$userDetail) {
-            abort(404, 'User not found');
-        }
-
-        // Render Blade view to HTML
         $html = view('user_details.certificate', compact('userDetail'))->render();
-
-        // Generate PDF with Dompdf
         $pdf = Pdf::loadHTML($html)->setPaper('a4', 'landscape');
 
-        // Return PDF as download
-        return $pdf->download("certificate_{$userDetail->full_name}_{$userDetail->ticket->program->name}.pdf");
+        return $pdf->download("certificate_{$userDetail->user->name}_{$userDetail->ticket_id}.pdf");
     }
     
     public function exportExcel()

@@ -15,11 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('ticket_id')->constrained('tickets')->onDelete('cascade');
-            $table->string('full_name');
-            $table->string('whatsapp_number');
-            $table->string('email');
             $table->text('address');
             $table->text('reason_to_join')->nullable();
+            $table->string('phone_number');
             $table->string('information_source')->nullable();
             $table->string('referral')->nullable();
             $table->timestamps();

@@ -45,22 +45,42 @@
     <!-- Header bawah -->
     <div class="header-bottom">
         <div class="container d-flex justify-content-between align-items-center">
-            <h1 class="mb-0"><a class="nav-link" href="/">Contact Us</a></h1>
+            <img src="https://lpap.widyatama.ac.id/wp-content/uploads/elementor/thumbs/logo-lpap-qmsat9cj6s4dat1eiydqz30ppipq6y65puh6wzi30k.png" 
+             alt="LPAP Logo" 
+             height="50">
             <!-- Navigation -->
-            <nav>
-                <ul class="nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('programs.index') }}">Program</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('tickets.index') }}">Tiket</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('user_details.index') }}">Registrasi LPAP</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="contact">Contact</a>
-                    </li>
+    <nav>
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('programs.index') }}">Program</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('tickets.index') }}">Tiket</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('user_details.index') }}">Registrasi LPAP</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="contacts">Contact</a>
+            </li>
+
+            <!-- Authentication Links -->
+            @auth
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="nav-link btn btn-link text-white p-0">Logout</button>
+                    </form>
+                </li>
+            @endauth
+            @guest
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('login') }}">Login</a>
+                </li>
+            @endguest
                 </ul>
             </nav>
         </div>

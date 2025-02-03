@@ -10,7 +10,7 @@ class Ticket extends Model
 {
     protected $fillable = ['program_id', 'batch_id', 'year', 'unique_code'];
 
-    public function program()
+    public function program() : BelongsTo
     {
         return $this->belongsTo(Program::class);
     }
