@@ -16,69 +16,71 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+// Route yang bisa diakses oleh semua user yang login
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::prefix('user-details')->name('user_details.')->group(function () {
-    Route::get('/', [UserDetailController::class, 'index'])->name('index');
-    Route::get('/create', [UserDetailController::class, 'create'])->name('create');
-    Route::post('/', [UserDetailController::class, 'store'])->name('store');
-    Route::get('/{id}/edit', [UserDetailController::class, 'edit'])->name('edit');
-    Route::put('/{id}', [UserDetailController::class, 'update'])->name('update');
-    Route::delete('/{id}', [UserDetailController::class, 'destroy'])->name('destroy');
+// Semua route dalam grup ini hanya bisa diakses oleh admin
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    // user details atau regist lpap
+        Route::get('/user-details', [UserDetailController::class, 'index'])->name('user_details.index');
+        Route::get('/user-details/{id}/edit', [UserDetailController::class, 'edit'])->name('user_details.edit');
+        Route::put('/user-details/{id}', [UserDetailController::class, 'update'])->name('user_details.update');
+        Route::delete('/user-details/{id}', [UserDetailController::class, 'destroy'])->name('user_details.destroy');
+        Route::get('/user-details/{id}/certificate', [UserDetailController::class, 'certificate'])->name('user_details.certificate');
+        Route::get('/user-details/export-excel', [UserDetailController::class, 'exportExcel'])->name('user_details.export-excel');
+        Route::get('/user-details/{id}/export-pdf', [UserDetailController::class, 'exportPdf'])->name('export_pdf');
 
-    // Route tambahan
-    Route::get('/{id}/certificate', [UserDetailController::class, 'certificate'])->name('certificate');
-    Route::get('/{id}/export-pdf', [UserDetailController::class, 'exportPdf'])->name('export_pdf');
-    Route::get('/export-excel', [UserDetailController::class, 'exportExcel'])->name('export_excel');
-});
-Route::get('/user_details/{id}/export-pdf', [UserDetailController::class, 'exportPdf'])->name('user_details.export-pdf');
-Route::get('/user-details/export-excel', [UserDetailController::class, 'exportExcel'])->name('user_details.export-excel');
-// Routes untuk TicketController
-Route::prefix('tickets')->name('tickets.')->group(function () {
-    Route::get('/', [TicketController::class, 'index'])->name('index');
-    Route::get('/create', [TicketController::class, 'create'])->name('create');
-    Route::post('/', [TicketController::class, 'store'])->name('store');
-    Route::get('/{id}', [TicketController::class, 'show'])->name('show');
-    Route::get('/{id}/edit', [TicketController::class, 'edit'])->name('edit');
-    Route::put('/{id}', [TicketController::class, 'update'])->name('update');
-    Route::delete('/{id}', [TicketController::class, 'destroy'])->name('destroy');
-});
+    Route::prefix('tickets')->name('tickets.')->group(function () {
+        Route::get('/{id}/edit', [TicketController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [TicketController::class, 'update'])->name('update');
+        Route::delete('/{id}', [TicketController::class, 'destroy'])->name('destroy');
+    });
 
-// Routes untuk ProgramController
-Route::prefix('programs')->name('programs.')->group(function () {
-    Route::get('/', [ProgramController::class, 'index'])->name('index');
-    Route::get('/create', [ProgramController::class, 'create'])->name('create'); // Jika ada form create
-    Route::post('/', [ProgramController::class, 'store'])->name('store');        // Jika ada simpan data
-    Route::get('/{id}', [ProgramController::class, 'show'])->name('show');
-    Route::get('/{id}/edit', [ProgramController::class, 'edit'])->name('edit');  // Jika ada edit data
-    Route::put('/{id}', [ProgramController::class, 'update'])->name('update');   // Jika ada update data
-    Route::delete('/{id}', [ProgramController::class, 'destroy'])->name('destroy'); // Jika ada hapus data
-});
+    Route::prefix('programs')->name('programs.')->group(function () {
+        Route::get('/', [ProgramController::class, 'index'])->name('index');
+        Route::get('/{id}/edit', [ProgramController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [ProgramController::class, 'update'])->name('update');
+        Route::delete('/{id}', [ProgramController::class, 'destroy'])->name('destroy');
+    });
 
-Route::prefix('batches')->name('batches.')->group(function () {
-    Route::get('/', [BatchController::class, 'index'])->name('index');
-    Route::get('/create', [BatchController::class, 'create'])->name('create');
-    Route::post('/', [BatchController::class, 'store'])->name('store');
-    Route::get('/{id}', [BatchController::class, 'show'])->name('show');
-    Route::get('/{id}/edit', [BatchController::class, 'edit'])->name('edit');
-    Route::put('/{id}', [BatchController::class, 'update'])->name('update');
-    Route::delete('/{id}', [BatchController::class, 'destroy'])->name('destroy');
+    Route::prefix('batches')->name('batches.')->group(function () {
+        Route::get('/', [BatchController::class, 'index'])->name('index');
+        Route::get('/create', [BatchController::class, 'create'])->name('create');
+        Route::post('/', [BatchController::class, 'store'])->name('store');
+        Route::get('/{batch}', [BatchController::class, 'show'])->name('show');
+        Route::get('/{batch}/edit', [BatchController::class, 'edit'])->name('edit');
+        Route::put('/{batch}', [BatchController::class, 'update'])->name('update');
+        Route::delete('/{batch}', [BatchController::class, 'destroy'])->name('destroy');
+    });
+    
+
+    
 });
 
-Route::get('/contacts', [ContactController::class, 'index'])->name('contacts.index')->middleware('auth');
-Route::get('/contacts/create', [ContactController::class, 'create'])->name('contacts.create')->middleware('auth');
-Route::post('/contacts', [ContactController::class, 'store'])->name('contacts.store')->middleware('auth');
-Route::get('/contacts/{contact}', [ContactController::class, 'show'])->name('contacts.show')->middleware('auth');
-Route::get('/contacts/{contact}/edit', [ContactController::class, 'edit'])->name('contacts.edit')->middleware('auth');
-Route::put('/contacts/{contact}', [ContactController::class, 'update'])->name('contacts.update')->middleware('auth');
-Route::delete('/contacts/{contact}', [ContactController::class, 'destroy'])->name('contacts.destroy')->middleware('auth');
+Route::middleware(['auth', 'role:admin,user,company'])->group(function () {
 
-Route::get('/contacts', function () {
-    return view('contacts.contact');
+    // regist lpap
+    Route::get('/user-details/create', [UserDetailController::class, 'create'])->name('user_details.create');
+    Route::post('/user-details/store', [UserDetailController::class, 'store'])->name('user_details.store');
+    // export
+    Route::get('/user_details/{id}/export-pdf', [UserDetailController::class, 'exportPdf'])->name('user_details.export-pdf');
+    // regist tiket
+    Route::get('/tickets/create', [TicketController::class, 'create'])->name('tickets.create');
+    Route::post('/tickets', [TicketController::class, 'store'])->name('tickets.store');
+    Route::get('/tickets', [TicketController::class, 'index'])->name('tickets.index');
 });
+
+Route::middleware(['auth', 'role:admin,company'])->group(function () {
+    Route::get('/programs', [ProgramController::class, 'index'])->name('programs.index');
+    Route::get('/programs/create', [ProgramController::class, 'create'])->name('programs.create');
+    Route::post('/programs', [ProgramController::class, 'store'])->name('programs.store');
+});
+    
+Route::get('/contacts', [ContactController::class, 'create'])->name('contacts.create');
+Route::post('/contacts', [ContactController::class, 'store'])->name('contacts.store');
 
 require __DIR__.'/auth.php';

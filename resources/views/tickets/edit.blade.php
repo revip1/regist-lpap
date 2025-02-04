@@ -19,8 +19,12 @@
                 </select>
             </div>
             <div class="mb-3">
-                <label for="batch" class="form-label">Gelombang</label>
-                <input type="number" name="batch" id="batch" class="form-control" value="{{ $ticket->batch }}" required>
+                <label for="batch_id" class="form-label">Gelombang</label>
+                <select name="batch_id" id="batch_id" class="form-select" required>
+                    @foreach ($batches as $batch)
+                        <option value="{{ $batch->id }} {{ $ticket->batch_id == $batch->id ? 'selected' : '' }}">{{ $batch->name }}</option>
+                    @endforeach
+                </select>
             </div>
             <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
         </form>

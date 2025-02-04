@@ -39,7 +39,7 @@ class ProgramController extends Controller
             // Simpan data ke database
             Program::create($data);
     
-            return redirect()->route('programs.index')->with('success', 'Program berhasil ditambahkan.');
+            return redirect()->back()->with('success','Program berhasil ditambahkan.');
         } catch (\Illuminate\Database\QueryException $e) {
             return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan saat menyimpan data. Silakan coba lagi.');
         } catch (\Exception $e) {

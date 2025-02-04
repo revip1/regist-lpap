@@ -45,13 +45,16 @@ class BatchController extends Controller
     
     public function edit(Batch $batch)
     {
-        return view('batches.edit', compact('batch'));
+        $programs = Program::all();
+        
+        return view('batches.edit', compact('batch', 'programs'));
     }
 
     
     public function update(Request $request, Batch $batch)
     {
         $request->validate([
+            'program_id' => 'required|exists:programs,id',
             'name' => 'required|string|max:255',
             'limit' => 'required|integer|min:1',
         ]);

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Batch;
+use App\Models\Program;
 use App\Models\Ticket;
 use App\Models\User;
 use App\Models\UserDetail;
@@ -10,10 +12,32 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class UserDetailController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $userDetails = UserDetail::with(['ticket', 'user'])->paginate(10);
-        return view('user_details.index', compact('userDetails'));
+        $query = UserDetail::with(['ticket.program', 'ticket.batch', 'user']);
+
+        // Filter by program
+        if ($request->filled('program_id')) {
+            $query->whereHas('ticket', function($q) use ($request) {
+                $q->where('program_id', $request->program_id);
+            });
+        }
+
+        // Filter by batch
+        if ($request->filled('batch_id')) {
+            $query->whereHas('ticket', function($q) use ($request) {
+                $q->where('batch_id', $request->batch_id);
+            });
+        }
+
+        // Get programs and batches for filter dropdowns
+        $programs = Program::all();
+        $batches = Batch::all();
+        
+        $userDetails = $query->paginate(10)
+            ->appends($request->all());
+
+        return view('user_details.index', compact('userDetails', 'programs', 'batches'));
     }
 
     public function create()
