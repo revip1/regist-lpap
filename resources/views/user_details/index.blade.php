@@ -56,14 +56,14 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Nama Lengkap</th>
+                <th>Nama</th>
                 <th>Nomor WhatsApp</th>
                 <th>Email</th>
                 <th>Kode Tiket</th>
                 <th>Program</th>
                 <th>Gelombang</th>
-                <th>Sertifikat</th>
-                <th>Export PDF</th>
+                <!-- <th>Sertifikat</th> -->
+                <th>Download Certificate</th>
             </tr>
         </thead>
         <tbody>
@@ -71,24 +71,24 @@
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $userDetail->user->name ?? 'Tidak tersedia' }}</td>
-                    <td>{{ $userDetail->phone_number ?? 'Tidak tersedia' }}</td>
+                    <td><center>{{ $userDetail->phone_number ?? 'Tidak tersedia' }}</center></td>
                     <td>{{ $userDetail->user->email ?? 'Tidak tersedia' }}</td>
                     <td>{{ $userDetail->ticket->unique_code ?? 'Tiket tidak tersedia' }}</td>
                     <td>{{ $userDetail->ticket->program->name ?? 'Program tidak tersedia' }}</td>
-                    <td>{{ $userDetail->ticket->batch->name ?? 'Gelombang tidak tersedia' }}</td>
-                    <td>
-                        @if($userDetail->ticket)
+                    <td><center>{{ $userDetail->ticket->batch->name ?? 'Gelombang tidak tersedia' }}</center></td>
+                    <!-- <td> -->
+                        <!-- @if($userDetail->ticket)
                             <a href="{{ route('user_details.certificate', $userDetail->id) }}" target="_blank" class="btn btn-primary btn-sm">
                                 Lihat Sertifikat
                             </a>
                         @else
                             <span class="text-danger">Sertifikat tidak tersedia</span>
-                        @endif
-                    </td>
+                        @endif -->
+                    <!-- </td> -->
                     <td>
                         @if($userDetail->ticket)
                             <a href="{{ route('user_details.export-pdf', $userDetail->id) }}" class="btn btn-success btn-sm">
-                                Export PDF
+                                Download Certificate
                             </a>
                         @else
                             <span class="text-danger">Tidak tersedia</span>

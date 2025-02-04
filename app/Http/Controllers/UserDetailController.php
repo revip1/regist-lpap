@@ -46,6 +46,10 @@ class UserDetailController extends Controller
         $users = User::all();
         $loggedUser = auth()->user();
 
+        $tickets = Ticket::whereNotIn('id', function ($query) {
+            $query->select('ticket_id')->from('user_details');
+        })->get();
+
         return view('user_details.create', compact('tickets', 'users', 'loggedUser'));
     }
 
@@ -70,7 +74,7 @@ class UserDetailController extends Controller
 
         UserDetail::create($data);
 
-        return redirect()->route('user_details.index')->with('success', 'User Detail created successfully');
+        return redirect()->route('user_details.create')->with('success', 'User Berhasil Daftar LPAP');
     }
 
     public function edit($id)

@@ -20,9 +20,9 @@
             </div>
 
             <div class="mb-3">
-                <label for="batch_id" class="form-label">Gelombang</label>
+                <label for="batch_id" class="form-label">Batch</label>
                 <select name="batch_id" id="batch_id" class="form-select" required>
-                    <option value="" disabled selected>Pilih Gelombang</option>
+                    <option value="" disabled selected>Pilih Batch</option>
                     @foreach ($batches as $batch)
                         <option value="{{ $batch->id }}">{{ $batch->name }}</option>
                     @endforeach

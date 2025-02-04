@@ -5,25 +5,25 @@
 
 @section('content')
 <div class="container">
-    <h2>Registrasi User LPAP</h2>
+    <h2>Registrasi</h2>
     <form action="{{ route('user_details.store') }}" method="POST">
         @csrf
         <input type="hidden" name="user_id" value="{{ auth()->id() }}">
         <div class="mb-3">
-            <label for="full_name" class="form-label">Nama Lengkap</label>
+            <label for="full_name" class="form-label">Nama Perusahaan</label>
             <input type="text" name="full_name" id="full_name" class="form-control" value="{{ old('full_name', $loggedUser->name) }}" required>
         </div>
         <div class="mb-3">
-            <label for="phone_number" class="form-label">Nomor Whatsapp</label>
+            <label for="address" class="form-label">Alamat Lengkap</label>
+            <input type="text" name="address" id="address" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="phone_number" class="form-label">Nomor Telepon/Whatsapp</label>
             <input type="text" name="phone_number" id="phone_number" class="form-control" required>
         </div>
         <div class="mb-3">
             <label for="email" class="form-label">Email</label>
             <input type="email" name="email" id="email" class="form-control" value="{{ old('email', $loggedUser->email) }}" required>
-        </div>
-        <div class="mb-3">
-            <label for="address" class="form-label">Alamat Lengkap</label>
-            <input type="text" name="address" id="address" class="form-control" required>
         </div>
         <div class="mb-3">
             <label for="occupation" class="form-label">Pekerjaan</label>
@@ -45,6 +45,7 @@
                     <option value="{{ $ticket->id }}">{{ $ticket->unique_code }}</option>
                 @endforeach
             </select>
+
         </div>
         
         <div class="mb-3">
@@ -58,4 +59,15 @@
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
+@if(session('success'))
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: '{{ session("success") }}',
+            confirmButtonText: 'OK'
+        });
+    </script>
+@endif
+
 @endsection

@@ -13,7 +13,7 @@
                 <tr>
                     <th>#</th>
                     <th>Program</th>
-                    <th>Gelombang</th>
+                    <th>Batch</th>
                     <th>Kode Tiket</th>
                     <th>Aksi</th>
                 </tr>

@@ -6,6 +6,7 @@
     <title>LPAP</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         html, body {
             height: 100%;
@@ -135,18 +136,18 @@
                 <div class="col-md-4 text-center">
                     <h5 class="fw-bold">FOLLOW US</h5>
                     <div>
-                        <a href="#" class="text-white fs-4 me-3"><i class="bi bi-facebook"></i></a>
-                        <a href="#" class="text-white fs-4 me-3"><i class="bi bi-twitter"></i></a>
-                        <a href="#" class="text-white fs-4 me-3"><i class="bi bi-instagram"></i></a>
-                        <a href="#" class="text-white fs-4"><i class="bi bi-linkedin"></i></a>
+                        <a href="https://www.instagram.com/lpap.widyatama/?hl=en" class="text-white fs-4 me-3"><i class="bi bi-instagram"></i></a>
                     </div>
                 </div>
 
                  <!-- Bagian Kontak -->
                  <div class="col-md-4">
                     <h5 class="fw-bold">GET IN TOUCH</h5>
-                    <p class="mb-1"><strong>Customer Care:</strong> +62 812 3456 7890</p>
-                    <p><strong>Email:</strong> support@lpap.com</p>
+                    <p class="mb-1"><strong>Customer Care:</strong> +62 818 0224 5999</p>
+                    <p class="mb-1"><strong>Email:</strong> trainingcenter.lpap@widyatama.ac.id</p>
+                    <h6 class="mb-1">Universitas Widyatama</h6>
+                    <p class="mb-1">Jl.Cikutra No.204A Bandung Indonesia</p>
+
                 </div>
             </div>
     </footer>
