@@ -63,11 +63,11 @@
                 <ul class="nav">
                     @if(Auth::check() && (Auth::user()->role == 'user' || Auth::user()->role == 'company'))
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('user_details.create') }}">Registrasi LPAP</a>
+                            <a class="nav-link" href="{{ route('user_details.create') }}">Registrasi Kelas</a>
                         </li>
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a class="nav-link" href="{{ route('tickets.create') }}">Tiket</a>
-                        </li>
+                        </li> --}}
                         @if(Auth::user()->role == 'company')
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('programs.create')}}">Program</a>
@@ -77,14 +77,14 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('programs.index') }}">Program</a>
                         </li>
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a class="nav-link" href="{{ route('batches.index')}}">Batch</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('tickets.index') }}">Tiket</a>
-                        </li>
+                        </li> --}}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('user_details.index') }}">Registrasi LPAP</a>
+                            <a class="nav-link" href="{{ route('user_details.index') }}">Registrasi Kelas</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="contacts">Contact</a>

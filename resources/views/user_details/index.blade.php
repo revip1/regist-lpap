@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
-@section('header-title', 'Daftar User Detail')
-@section('breadcrumb', 'User Detail')
+@section('header-title', 'Daftar Registrasi Kelas')
+@section('breadcrumb', 'Registrasi Kelas')
 
 @section('content')
 <div class="container">
-    <h2>Daftar User Detail</h2>
+    <h2>Daftar Registrasi Kelas</h2>
     
     <div class="row mb-3">
         <div class="col">
-            <a href="{{ route('user_details.create') }}" class="btn btn-primary">Tambah User Detail</a>
+            <a href="{{ route('user_details.create') }}" class="btn btn-primary">Tambah Registrasi Kelas</a>
             <a href="{{ route('user_details.export-excel') }}" class="btn btn-success">Export to Excel</a>
         </div>
     </div>
@@ -22,7 +22,7 @@
     <div class="card mb-3">
         <div class="card-body">
             <form action="{{ route('user_details.index') }}" method="GET" class="row g-3">
-                <div class="col-md-5">
+                <div class="col-md-6">
                     <label for="program_id" class="form-label">Program</label>
                     <select name="program_id" id="program_id" class="form-select">
                         <option value="">Semua Program</option>
@@ -33,66 +33,45 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-5">
-                    <label for="batch_id" class="form-label">Gelombang</label>
-                    <select name="batch_id" id="batch_id" class="form-select">
-                        <option value="">Semua Gelombang</option>
-                        @foreach($batches as $batch)
-                            <option value="{{ $batch->id }}" {{ request('batch_id') == $batch->id ? 'selected' : '' }}>
-                                {{ $batch->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-md-2">
-                    <label class="form-label">&nbsp;</label>
-                    <button type="submit" class="btn btn-primary d-block w-100">Filter</button>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100">Filter</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <table class="table">
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Nama</th>
                 <th>Nomor WhatsApp</th>
                 <th>Email</th>
-                <th>Kode Tiket</th>
                 <th>Program</th>
-                <th>Gelombang</th>
-                <!-- <th>Sertifikat</th> -->
                 <th>Download Certificate</th>
+                <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
             @foreach($userDetails as $userDetail)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $userDetail->user->name ?? 'Tidak tersedia' }}</td>
-                    <td><center>{{ $userDetail->phone_number ?? 'Tidak tersedia' }}</center></td>
-                    <td>{{ $userDetail->user->email ?? 'Tidak tersedia' }}</td>
-                    <td>{{ $userDetail->ticket->unique_code ?? 'Tiket tidak tersedia' }}</td>
-                    <td>{{ $userDetail->ticket->program->name ?? 'Program tidak tersedia' }}</td>
-                    <td><center>{{ $userDetail->ticket->batch->name ?? 'Gelombang tidak tersedia' }}</center></td>
-                    <!-- <td> -->
-                        <!-- @if($userDetail->ticket)
-                            <a href="{{ route('user_details.certificate', $userDetail->id) }}" target="_blank" class="btn btn-primary btn-sm">
-                                Lihat Sertifikat
-                            </a>
-                        @else
-                            <span class="text-danger">Sertifikat tidak tersedia</span>
-                        @endif -->
-                    <!-- </td> -->
+                    <td>{{ $userDetail->name }}</td>
+                    <td>{{ $userDetail->phone_number }}</td>
+                    <td>{{ $userDetail->email }}</td>
+                    <td>{{ $userDetail->program->name ?? 'Tidak tersedia' }}</td>
                     <td>
-                        @if($userDetail->ticket)
-                            <a href="{{ route('user_details.export-pdf', $userDetail->id) }}" class="btn btn-success btn-sm">
-                                Download Certificate
-                            </a>
-                        @else
-                            <span class="text-danger">Tidak tersedia</span>
-                        @endif
+                        <a href="{{ route('export_pdf', $userDetail->id) }}" class="btn btn-success btn-sm">
+                            Download Certificate
+                        </a>                        
+                    </td>
+                    <td>
+                        <a href="{{ route('user_details.edit', $userDetail->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                        <form action="{{ route('user_details.destroy', $userDetail->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                        </form>
                     </td>
                 </tr>
             @endforeach

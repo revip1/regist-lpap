@@ -33,7 +33,7 @@ class ProgramController extends Controller
                 'name' => 'required|string|max:255',
                 'label' => 'required|string|max:255',
                 'description' => 'required|string',
-                'code' => 'required|string|max:10|unique:programs',
+                'place' => 'required|string',
             ]);
     
             // Simpan data ke database
@@ -66,7 +66,7 @@ class ProgramController extends Controller
             'name' => 'required|string|max:255',
             'label' => 'required|string|max:255',
             'description' => 'required|string',
-            'code' => 'required|string|max:10|unique:programs,code,' . $id,
+            'place' => 'required|string',
         ]);
 
         // Cari program berdasarkan ID

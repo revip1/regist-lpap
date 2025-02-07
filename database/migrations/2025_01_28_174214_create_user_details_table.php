@@ -13,13 +13,18 @@ return new class extends Migration
     {
         Schema::create('user_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('ticket_id')->constrained('tickets')->onDelete('cascade');
+            $table->string('name');
+            $table->foreignId('program_id')->constrained('programs')->onDelete('cascade');
+            $table->string('instance');
+            $table->string('email');
             $table->text('address');
+            $table->enum('identity_type', ['KTP', 'SIM', 'KP',])->nullable();
+            $table->string('identity_number')->nullable();
             $table->text('reason_to_join')->nullable();
             $table->string('phone_number');
             $table->string('information_source')->nullable();
             $table->string('referral')->nullable();
+            $table->string('occupation')->nullable();
             $table->timestamps();
         });
     }

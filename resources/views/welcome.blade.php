@@ -118,6 +118,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="contacts">Contact</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('user_details.create')}}">Registrasi Kelas</a>
+                    </li>
     
                     <!-- Authentication Links -->
                     @auth

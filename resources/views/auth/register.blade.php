@@ -21,13 +21,7 @@
             <x-text-input id="instance" class="block mt-1 w-full" type="text" name="instance" :value="old('instance')" required autofocus autocomplete="instance" />
             <x-input-error :messages="$errors->get('instance')" class="mt-2" />
         </div>
-
-        <div>
-            <x-input-label for="occupation" :value="__('Occupation')" />
-            <x-text-input id="occupation" class="block mt-1 w-full" type="text" name="occupation" :value="old('occupation')" required autofocus autocomplete="occupation" />
-            <x-input-error :messages="$errors->get('occupation')" class="mt-2" />
-        </div>
-
+        
         <div>
             <x-input-label for="role" :value="__('Role')" />
             <select id="role" name="role" class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required autofocus>

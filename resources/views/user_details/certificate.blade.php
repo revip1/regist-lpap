@@ -62,9 +62,8 @@
 <body>
     <div class="certificate">
         <div class="certificate-content">
-            <div class="name">{{ $userDetail->full_name }}</div>
-            <div class="program">Program: {{ $userDetail->ticket->program->name }}</div>
-            <div class="unique-code">Kode Tiket: {{ $userDetail->ticket->unique_code }}</div>
+            <div class="name">{{ $userDetail->name }}</div>
+            <div class="program">Program: {{ $userDetail->program->name }}</div>
         </div>
     </div>
 </body>

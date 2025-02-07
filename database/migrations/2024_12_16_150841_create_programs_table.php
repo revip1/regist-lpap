@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('label');
             $table->text('description')->nullable();
-            $table->string('code')->unique();
+            $table->text('place');
             $table->timestamps();
         });
     }

@@ -13,7 +13,7 @@
                     <th>Name</th>
                     <th>Label</th>
                     <th>Description</th>
-                    <th>Code</th>
+                    <th>Tempat Pelaksanaan</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -24,7 +24,7 @@
                         <td>{{ $program->name }}</td>
                         <td>{{ $program->label }}</td>
                         <td>{{ $program->description }}</td>
-                        <td>{{ $program->code }}</td>
+                        <td>{{ $program->place }}</td>
                         <td>
                             <a href="{{ route('programs.edit', $program->id) }}" class="btn btn-warning">Edit</a>
                             <form action="{{ route('programs.destroy', $program->id) }}" method="POST" style="display:inline-block;">

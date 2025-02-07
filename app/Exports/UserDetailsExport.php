@@ -10,18 +10,19 @@ class UserDetailsExport implements FromCollection, WithHeadings
 {
     public function collection()
     {
-        return UserDetail::with('ticket')->get()->map(function ($userDetail) {
+        return UserDetail::with('program')->get()->map(function ($userDetail) {
             return [
-                'Nama Lengkap' => $userDetail->full_name,
-                'Nomor WhatsApp' => $userDetail->whatsapp_number,
+                'Nama Lengkap' => $userDetail->name,
+                'Nomor WhatsApp' => $userDetail->phone_number,
                 'Email' => $userDetail->email,
                 'Alamat' => $userDetail->address,
-                'Pekerjaan' => $userDetail->occupation,
-                'Institusi' => $userDetail->institution,
-                'Alasan' => $userDetail->reason,
-                'Sumber Informasi' => $userDetail->source_of_info,
-                'Referensi' => $userDetail->referral,
-                'Kode Tiket' => $userDetail->ticket->unique_code ?? 'Tidak tersedia',
+                'Institusi' => $userDetail->instance,
+                'Jenis Identitas' => $userDetail->identity_type ?? 'Tidak tersedia',
+                'Nomor Identitas' => $userDetail->identity_number ?? 'Tidak tersedia',
+                'Alasan Bergabung' => $userDetail->reason_to_join ?? 'Tidak tersedia',
+                'Sumber Informasi' => $userDetail->information_source ?? 'Tidak tersedia',
+                'Referensi' => $userDetail->referral ?? 'Tidak tersedia',
+                'Program' => $userDetail->program->name ?? 'Tidak tersedia',
             ];
         });
     }
@@ -33,12 +34,13 @@ class UserDetailsExport implements FromCollection, WithHeadings
             'Nomor WhatsApp',
             'Email',
             'Alamat',
-            'Pekerjaan',
             'Institusi',
-            'Alasan',
+            'Jenis Identitas',
+            'Nomor Identitas',
+            'Alasan Bergabung',
             'Sumber Informasi',
             'Referensi',
-            'Kode Tiket',
+            'Program',
         ];
     }
 }

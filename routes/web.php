@@ -8,78 +8,64 @@ use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UserDetailController;
 use Illuminate\Support\Facades\Route;
 
+// Halaman utama
 Route::get('/', function () {
     return view('welcome');
 });
 
+// Dashboard
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-// Route yang bisa diakses oleh semua user yang login
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+// Profile
+Route::get('/profile', [ProfileController::class, 'edit'])->middleware('auth')->name('profile.edit');
+Route::patch('/profile', [ProfileController::class, 'update'])->middleware('auth')->name('profile.update');
+Route::delete('/profile', [ProfileController::class, 'destroy'])->middleware('auth')->name('profile.destroy');
 
-// Semua route dalam grup ini hanya bisa diakses oleh admin
-Route::middleware(['auth', 'role:admin'])->group(function () {
-    // user details atau regist lpap
-        Route::get('/user-details', [UserDetailController::class, 'index'])->name('user_details.index');
-        Route::get('/user-details/{id}/edit', [UserDetailController::class, 'edit'])->name('user_details.edit');
-        Route::put('/user-details/{id}', [UserDetailController::class, 'update'])->name('user_details.update');
-        Route::delete('/user-details/{id}', [UserDetailController::class, 'destroy'])->name('user_details.destroy');
-        Route::get('/user-details/{id}/certificate', [UserDetailController::class, 'certificate'])->name('user_details.certificate');
-        Route::get('/user-details/export-excel', [UserDetailController::class, 'exportExcel'])->name('user_details.export-excel');
-        Route::get('/user-details/{id}/export-pdf', [UserDetailController::class, 'exportPdf'])->name('export_pdf');
+// User Details (no Auth)
+Route::get('/user-details/create', [UserDetailController::class, 'create'])->name('user_details.create');
+Route::post('/user-details/store', [UserDetailController::class, 'store'])->name('user_details.store');
 
-    Route::prefix('tickets')->name('tickets.')->group(function () {
-        Route::get('/{id}/edit', [TicketController::class, 'edit'])->name('edit');
-        Route::put('/{id}', [TicketController::class, 'update'])->name('update');
-        Route::delete('/{id}', [TicketController::class, 'destroy'])->name('destroy');
-    });
+// User Details (Admin)
+Route::get('/user-details', [UserDetailController::class, 'index'])->middleware(['auth', 'role:admin'])->name('user_details.index');
+Route::get('/user-details/{id}/edit', [UserDetailController::class, 'edit'])->middleware(['auth', 'role:admin'])->name('user_details.edit');
+Route::put('/user-details/{id}', [UserDetailController::class, 'update'])->middleware(['auth', 'role:admin'])->name('user_details.update');
+Route::delete('/user-details/{id}', [UserDetailController::class, 'destroy'])->middleware(['auth', 'role:admin'])->name('user_details.destroy');
+Route::get('/user-details/{id}/certificate', [UserDetailController::class, 'certificate'])->middleware(['auth', 'role:admin'])->name('user_details.certificate');
+Route::get('/user-details/export-excel', [UserDetailController::class, 'exportExcel'])->middleware(['auth', 'role:admin'])->name('user_details.export-excel');
+Route::get('/user-details/{id}/export-pdf', [UserDetailController::class, 'exportPdf'])->middleware(['auth', 'role:admin'])->name('export_pdf');
 
-    Route::prefix('programs')->name('programs.')->group(function () {
-        Route::get('/', [ProgramController::class, 'index'])->name('index');
-        Route::get('/{id}/edit', [ProgramController::class, 'edit'])->name('edit');
-        Route::put('/{id}', [ProgramController::class, 'update'])->name('update');
-        Route::delete('/{id}', [ProgramController::class, 'destroy'])->name('destroy');
-    });
+// Tickets (Admin)
+Route::get('/tickets/{id}/edit', [TicketController::class, 'edit'])->middleware(['auth', 'role:admin'])->name('tickets.edit');
+Route::put('/tickets/{id}', [TicketController::class, 'update'])->middleware(['auth', 'role:admin'])->name('tickets.update');
+Route::delete('/tickets/{id}', [TicketController::class, 'destroy'])->middleware(['auth', 'role:admin'])->name('tickets.destroy');
 
-    Route::prefix('batches')->name('batches.')->group(function () {
-        Route::get('/', [BatchController::class, 'index'])->name('index');
-        Route::get('/create', [BatchController::class, 'create'])->name('create');
-        Route::post('/', [BatchController::class, 'store'])->name('store');
-        Route::get('/{batch}', [BatchController::class, 'show'])->name('show');
-        Route::get('/{batch}/edit', [BatchController::class, 'edit'])->name('edit');
-        Route::put('/{batch}', [BatchController::class, 'update'])->name('update');
-        Route::delete('/{batch}', [BatchController::class, 'destroy'])->name('destroy');
-    });
-    
+// Tickets (Admin, User, Company)
+Route::get('/tickets/create', [TicketController::class, 'create'])->middleware(['auth', 'role:admin,user,company'])->name('tickets.create');
+Route::post('/tickets', [TicketController::class, 'store'])->middleware(['auth', 'role:admin,user,company'])->name('tickets.store');
+Route::get('/tickets', [TicketController::class, 'index'])->middleware(['auth', 'role:admin,user,company'])->name('tickets.index');
 
-    
-});
+// Programs (Admin & Company)
+Route::get('/programs', [ProgramController::class, 'index'])->middleware(['auth', 'role:admin,company'])->name('programs.index');
+Route::get('/programs/create', [ProgramController::class, 'create'])->middleware(['auth', 'role:admin,company'])->name('programs.create');
+Route::post('/programs', [ProgramController::class, 'store'])->middleware(['auth', 'role:admin,company'])->name('programs.store');
 
-Route::middleware(['auth', 'role:admin,user,company'])->group(function () {
+// Programs (Admin)
+Route::get('/programs/{id}/edit', [ProgramController::class, 'edit'])->middleware(['auth', 'role:admin'])->name('programs.edit');
+Route::put('/programs/{id}', [ProgramController::class, 'update'])->middleware(['auth', 'role:admin'])->name('programs.update');
+Route::delete('/programs/{id}', [ProgramController::class, 'destroy'])->middleware(['auth', 'role:admin'])->name('programs.destroy');
 
-    // regist lpap
-    Route::get('/user-details/create', [UserDetailController::class, 'create'])->name('user_details.create');
-    Route::post('/user-details/store', [UserDetailController::class, 'store'])->name('user_details.store');
-    // export
-    Route::get('/user_details/{id}/export-pdf', [UserDetailController::class, 'exportPdf'])->name('user_details.export-pdf');
-    // regist tiket
-    Route::get('/tickets/create', [TicketController::class, 'create'])->name('tickets.create');
-    Route::post('/tickets', [TicketController::class, 'store'])->name('tickets.store');
-    Route::get('/tickets', [TicketController::class, 'index'])->name('tickets.index');
-});
+// Batches (Admin)
+Route::get('/batches', [BatchController::class, 'index'])->middleware(['auth', 'role:admin'])->name('batches.index');
+Route::get('/batches/create', [BatchController::class, 'create'])->middleware(['auth', 'role:admin'])->name('batches.create');
+Route::post('/batches', [BatchController::class, 'store'])->middleware(['auth', 'role:admin'])->name('batches.store');
+Route::get('/batches/{batch}', [BatchController::class, 'show'])->middleware(['auth', 'role:admin'])->name('batches.show');
+Route::get('/batches/{batch}/edit', [BatchController::class, 'edit'])->middleware(['auth', 'role:admin'])->name('batches.edit');
+Route::put('/batches/{batch}', [BatchController::class, 'update'])->middleware(['auth', 'role:admin'])->name('batches.update');
+Route::delete('/batches/{batch}', [BatchController::class, 'destroy'])->middleware(['auth', 'role:admin'])->name('batches.destroy');
 
-Route::middleware(['auth', 'role:admin,company'])->group(function () {
-    Route::get('/programs', [ProgramController::class, 'index'])->name('programs.index');
-    Route::get('/programs/create', [ProgramController::class, 'create'])->name('programs.create');
-    Route::post('/programs', [ProgramController::class, 'store'])->name('programs.store');
-});
-    
+// Contacts (Bisa Diakses Semua User)
 Route::get('/contacts', [ContactController::class, 'create'])->name('contacts.create');
 Route::post('/contacts', [ContactController::class, 'store'])->name('contacts.store');
 

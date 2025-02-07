@@ -15,10 +15,10 @@ class Ticket extends Model
         return $this->belongsTo(Program::class);
     }
 
-    public function userDetails(): HasMany
-    {
-        return $this->hasMany(UserDetail::class, 'ticket_id');
-    }
+    // public function userDetails(): HasMany
+    // {
+    //     return $this->hasMany(UserDetail::class, 'ticket_id');
+    // }
 
     public function batch(): BelongsTo
     {
