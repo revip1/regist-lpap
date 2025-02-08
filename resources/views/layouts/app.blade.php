@@ -52,12 +52,12 @@
     </style>
 </head>
 <body>
-    
+
 
     <!-- Header bawah -->
     <div class="header-bottom">
         <div class="container d-flex justify-content-between align-items-center">
-            <img src="https://lpap.widyatama.ac.id/wp-content/uploads/elementor/thumbs/logo-lpap-qmsat9cj6s4dat1eiydqz30ppipq6y65puh6wzi30k.png" 
+            <img src="https://lpap.widyatama.ac.id/wp-content/uploads/elementor/thumbs/logo-lpap-qmsat9cj6s4dat1eiydqz30ppipq6y65puh6wzi30k.png"
                  alt="LPAP Logo" height="50">
             <nav>
                 <ul class="nav">
@@ -128,7 +128,7 @@
         @yield('content')
     </div>
 
-    
+
     <footer class="footer bg-#3f51b5 text-white py-2">
         <div class="container">
             <div class="row">
@@ -143,19 +143,19 @@
                  <!-- Bagian Kontak -->
                  <div class="col-md-4">
                     <h5 class="fw-bold">GET IN TOUCH</h5>
-                    <p class="mb-1"><strong>Customer Care:</strong> +62 818 0224 5999</p>
-                    <p class="mb-1"><strong>Email:</strong> trainingcenter.lpap@widyatama.ac.id</p>
+                    <p class="mb-1"><strong>Customer Care:</strong> <a href="telp:+081802245999" style="color: #fff; text-decoration: none">+62 818 0224 5999</a></p>
+                    <p class="mb-1"><strong>Email:</strong> <a href="mailto:trainingcenter.lpap@widyatama.ac.id" style="color: #fff; text-decoration: none">trainingcenter.lpap@widyatama.ac.id</a></p>
                     <h6 class="mb-1">Universitas Widyatama</h6>
                     <p class="mb-1">Jl.Cikutra No.204A Bandung Indonesia</p>
 
                 </div>
             </div>
     </footer>
-    <div class="text-center py-3" style="background-color: #ff9800;">
+    <div class="text-center py-2" style="background-color: #ff9800;">
         <p class="mb-0 text-dark">&copy; {{ date('Y') }} LPAP. All Rights Reserved.</p>
     </div>
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
-    
+
 </body>
 </html>

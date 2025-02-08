@@ -69,6 +69,10 @@
             margin-bottom: 2rem;
         }
 
+        .hero-content p {
+          font-size: 15px;
+        }
+
         .hero-overlay {
             position: absolute;
             top: 0;
@@ -82,7 +86,7 @@
             margin-top: 20px; /* Adjust margin */
             text-align: center;
             flex-wrap: wrap; /* Allow wrapping */
-            max-height: calc(100vh - 100px); /* Adjust based on header height */
+            /* max-height: calc(100vh - 100px); /* Adjust based on header height */ */
             overflow: hidden; /* Prevent overflow */
         }
 
@@ -93,6 +97,10 @@
         .feature img {
             max-width: 100%;
             height: 30vh
+        }
+
+        .feature div p {
+          font-size: 13.5px;
         }
 
         footer {
@@ -109,8 +117,8 @@
     <!-- Header bawah -->
     <div class="header-bottom">
         <div class="container d-flex justify-content-between align-items-center">
-            <img src="https://lpap.widyatama.ac.id/wp-content/uploads/elementor/thumbs/logo-lpap-qmsat9cj6s4dat1eiydqz30ppipq6y65puh6wzi30k.png" 
-             alt="LPAP Logo" 
+            <img src="https://lpap.widyatama.ac.id/wp-content/uploads/elementor/thumbs/logo-lpap-qmsat9cj6s4dat1eiydqz30ppipq6y65puh6wzi30k.png"
+             alt="LPAP Logo"
              height="50">
             <!-- Navigation -->
             <nav>
@@ -121,7 +129,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('user_details.create')}}">Registrasi Kelas</a>
                     </li>
-    
+
                     <!-- Authentication Links -->
                     @auth
                         <li class="nav-item">
@@ -148,7 +156,7 @@
     <div class="hero">
         <div class="hero-overlay"></div>
         <div class="hero-content">
-            <h1>LPAP</h1>
+            <h2>LPAP</h2>
             <p>Lembaga Pengembangan & Aplikasi Pengetahuan</p>
         </div>
     </div>
@@ -157,18 +165,24 @@
     <div class="container features">
         <div class="feature">
             <img src="https://images.unsplash.com/photo-1517456793572-1d8efd6dc135?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Career Development">
-            <h3>Career Development</h3>
-            <p>Kembangkan karirmu untuk menghadapi tantangan di masa depan.</p>
+            <div class="mt-2">
+              <h5>Career Development</h5>
+              <p>Kembangkan karirmu untuk menghadapi tantangan di masa depan.</p>
+            </div>
         </div>
-        <div class="feature">
+        <div class="feature mt-3">
             <img src="https://images.unsplash.com/photo-1517456793572-1d8efd6dc135?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Expert Instruction">
-            <h3>Expert Instruction</h3>
-            <p>Temukan instruktur terbaik untuk pengembangan karirmu.</p>
+            <div class="mt-2">
+              <h5>Expert Instruction</h5>
+              <p>Temukan instruktur terbaik untuk pengembangan karirmu.</p>
+            </div>
         </div>
-        <div class="feature">
+        <div class="feature mt-3">
             <img src="https://images.unsplash.com/photo-1517456793572-1d8efd6dc135?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Networking Opportunities">
-            <h3>Networking Opportunities</h3>
-            <p>Temukan peluang melalui jejaring antar ekspertis.</p>
+            <div class="mt-2">
+              <h5>Networking Opportunities</h5>
+              <p>Temukan peluang melalui jejaring antar ekspertis.</p>
+            </div>
         </div>
     </div>
 
@@ -177,7 +191,7 @@
         <div class="container">
             <div class="row">
                 <!-- Bagian Social Media -->
-                <div class="col-md-4 text-center">
+                <div class="col-md-4 text-center mt-2">
                     <h5 class="fw-bold">FOLLOW US</h5>
                     <div>
                         <a href="#" class="text-white fs-4 me-3"><i class="bi bi-facebook"></i></a>
@@ -190,12 +204,12 @@
                  <!-- Bagian Kontak -->
                  <div class="col-md-4">
                     <h5 class="fw-bold">GET IN TOUCH</h5>
-                    <p class="mb-1"><strong>Customer Care:</strong> +62 812 3456 7890</p>
-                    <p><strong>Email:</strong> support@lpap.com</p>
+                    <p class="mb-1"><strong>Customer Care:</strong> <a href="telp:+0812 34567890" style="color: #fff; text-decoration: none">+62 812 3456 7890</a></p>
+                    <p><strong>Email:</strong> <a href="mailto:support@lpap.com" style="color: #fff; text-decoration: none">support@lpap.com</a></p>
                 </div>
             </div>
     </footer>
-    <div class="text-center py-3" style="background-color: #ff9800;">
+    <div class="text-center py-2" style="background-color: #ff9800;">
         <p class="mb-0 text-dark">&copy; {{ date('Y') }} LPAP. All Rights Reserved.</p>
     </div>
 </body>
