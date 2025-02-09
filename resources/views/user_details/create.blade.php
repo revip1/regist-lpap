@@ -120,6 +120,16 @@ form div label {
         });
     </script>
 @endif
+@if(session('error'))
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: '{{ session("error") }}',
+            confirmButtonText: 'OK'
+        });
+    </script>
+@endif
 
 <script>
 let submit = document.getElementById('submit'),
