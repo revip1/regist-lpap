@@ -133,8 +133,20 @@ submit.onclick = function() {
   for (let i = 0; i < input.length; i++) {
     if ((input[i].type == 'text' || input[i].type == 'email') && input[i].value == '')
       document.getElementById('notif-' + input[i].id).style.display = 'flex'
-    else if (input[i].type == 'radio' && !input[i].checked)
-      document.getElementById('notif-' + input[i].name).style.display = 'flex'
+    else if (input[i].type == 'radio' && !input[i].checked) {
+      let radio = document.getElementsByName(input[i].name),
+          isFilled = false;
+
+      for (let j = 0; j < radio.length; j++) {
+        if (radio[j].checked)
+          isFilled = true
+      }
+
+      if (isFilled)
+        document.getElementById('notif-'+input[i].name).style.display = 'none'
+      else
+        document.getElementById('notif-'+input[i].name).style.display = 'flex'
+    }
   }
 
   for (let i = 0; i < select.length; i++) {

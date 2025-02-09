@@ -46,11 +46,21 @@ class UserDetailController extends Controller
             'referral' => 'nullable|string|max:255',
             'occupation' => 'nullable|string|max:255',
         ]);
+        
+        $existingUser = UserDetail::where('name', $data['name'])
+            ->where('identity_number', $data['identity_number'])
+            ->where('program_id', $data['program_id'])
+            ->exists();
+
+        if ($existingUser) {
+            return redirect()->back()->with('error', 'Peserta sudah terdaftar dalam kelas ini.');
+        }
 
         UserDetail::create($data);
 
         return redirect()->back()->with('success', 'User berhasil ditambahkan.');
     }
+
 
     public function edit($id)
     {

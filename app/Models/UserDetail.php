@@ -19,6 +19,7 @@ class UserDetail extends Model
         'phone_number',
         'information_source',
         'referral',
+        'occupation',
     ];
 
     public function program(): BelongsTo
