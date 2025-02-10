@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us - LPAP</title>
+    <title>LPAP</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -61,14 +61,17 @@
             <!-- Navigation -->
     <nav>
         <ul class="nav">
-            <li class="nav-item">
-                <a class="nav-link" href="contacts">Contact</a>
-            </li>
-
             <!-- Authentication Links -->
             @auth
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
+                    <!-- <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a> -->
+                    <a class="nav-link" href="./">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('user_details.create') }}">Registrasi Kelas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contacts">Contact</a>
                 </li>
                 <li class="nav-item">
                     <form method="POST" action="{{ route('logout') }}">
@@ -79,6 +82,15 @@
             @endauth
             @guest
                 <li class="nav-item">
+                    <a class="nav-link" href="./">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('user_details.create') }}">Registrasi Kelas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contacts">Contact</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{{ route('login') }}">Login</a>
                 </li>
             @endguest
@@ -87,7 +99,7 @@
         </div>
     </div>
 
-    <div class="breadcrumb-container">
+    <!-- <div class="breadcrumb-container">
         <div class="container">
             <nav style="--bs-breadcrumb-divider: '>'; " aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0">
@@ -96,7 +108,7 @@
                 </ol>
             </nav>
         </div>
-    </div>
+    </div> -->
 
     <!-- Contact Section -->
     <div class="container contact-container">
@@ -105,8 +117,8 @@
                 <h5>Contact Information</h5>
                 <p style="font-size: 14px">Feel free to reach out to us using the following contact details:</p>
                 <ul>
-                    <li><strong>Phone:</strong> <a href="telp:+0227275855" style="color: #fff; text-decoration: none">(022)7275855</a></li>
-                    <li><strong>Email:</strong> <a href="mailto:info@lpap.com" style="color: #fff; text-decoration: none">info@lpap.com</a></li>
+                    <li><strong>Phone:</strong> <a href="telp:+0227275855" style="color: #000; text-decoration: none">(022)7275855</a></li>
+                    <li><strong>Email:</strong> <a href="mailto:info@lpap.com" style="color: #000; text-decoration: none">info@lpap.com</a></li>
                     <li><strong>Address:</strong> Jl. Example No. 123, Bandung</li>
                 </ul>
             </div>

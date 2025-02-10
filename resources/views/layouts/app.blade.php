@@ -33,8 +33,15 @@
             background-color: #f8f9fa;
             padding: 10px 20px;
         }
+        .nav {
+          padding-top: 6.5px !important;
+        }
         .nav-link {
             color: white !important;
+            font-size: 14px !important;
+        }
+        .nav-item.logout {
+          padding-top: 6.5px !important;
         }
         .nav-link:hover {
             text-decoration: underline;
@@ -63,7 +70,14 @@
                 <ul class="nav">
                     @if(Auth::check() && (Auth::user()->role == 'user' || Auth::user()->role == 'company'))
                         <li class="nav-item">
+                            <!-- <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a> -->
+                            <a class="nav-link" href="../">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('user_details.create') }}">Registrasi Kelas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../contacts">Contact</a>
                         </li>
                         {{-- <li class="nav-item">
                             <a class="nav-link" href="{{ route('tickets.create') }}">Tiket</a>
@@ -74,27 +88,27 @@
                             </li>
                         @endif
                     @else
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a class="nav-link" href="{{ route('programs.index') }}">Program</a>
                         </li>
-                        {{-- <li class="nav-item">
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('batches.index')}}">Batch</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('tickets.index') }}">Tiket</a>
                         </li> --}}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('user_details.index') }}">Registrasi Kelas</a>
+                            <a class="nav-link" href="../">Dashboard</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="contacts">Contact</a>
+                            <a class="nav-link" href="{{ route('user_details.create') }}">Registrasi Kelas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../contacts">Contact</a>
                         </li>
                     @endif
                     @auth
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
-                        </li>
-                        <li class="nav-item">
+                        <li class="nav-item logout">
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button type="submit" class="nav-link btn btn-link text-white p-0">Logout</button>
@@ -111,8 +125,9 @@
         </div>
     </div>
 
+    <!-- @auth -->
     <!-- Breadcrumb -->
-    <div class="breadcrumb-container">
+    <!-- <div class="breadcrumb-container">
         <div class="container">
             <nav style="--bs-breadcrumb-divider: '>'; " aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0">
@@ -121,7 +136,8 @@
                 </ol>
             </nav>
         </div>
-    </div>
+    </div> -->
+    <!-- @endauth -->
 
     <!-- Konten Utama -->
     <div class="container mt-4 content">
