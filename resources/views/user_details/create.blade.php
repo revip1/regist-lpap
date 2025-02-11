@@ -121,39 +121,61 @@ form div label {
     </script>
 @endif
 
+@if(session('error'))
+    <script>
+        Swal.fire({
+            icon: 'error',
+            text: '{{ session("error") }}',
+            confirmButtonText: 'OK'
+        });
+    </script>
+@endif
+
 <script>
-let submit = document.getElementById('submit'),
-    notif = document.getElementsByClassName('notif-empty'),
-    input = document.getElementsByTagName('input'),
-    select = document.getElementsByTagName('select')
-submit.onclick = function() {
-  for (let i = 0; i < notif.length; i++)
-    notif[i].style.display = 'none'
-
-  for (let i = 0; i < input.length; i++) {
-    if ((input[i].type == 'text' || input[i].type == 'email') && input[i].value == '')
-      document.getElementById('notif-' + input[i].id).style.display = 'flex'
-    else if (input[i].type == 'radio' && !input[i].checked) {
-      let radio = document.getElementsByName(input[i].name),
-          isFilled = false;
-
-      for (let j = 0; j < radio.length; j++) {
-        if (radio[j].checked)
-          isFilled = true
+    document.getElementById('registrasi').onsubmit = function(event) {
+      let isValid = true;
+      let notif = document.getElementsByClassName('notif-empty'),
+          input = document.getElementsByTagName('input'),
+          select = document.getElementsByTagName('select');
+    
+      for (let i = 0; i < notif.length; i++) {
+        notif[i].style.display = 'none';
       }
-
-      if (isFilled)
-        document.getElementById('notif-'+input[i].name).style.display = 'none'
-      else
-        document.getElementById('notif-'+input[i].name).style.display = 'flex'
-    }
-  }
-
-  for (let i = 0; i < select.length; i++) {
-    if (select[i].type == 'select-one' && select[i].value == '')
-      document.getElementById('notif-' + select[i].id).style.display = 'flex'
-  }
-}
+    
+      for (let i = 0; i < input.length; i++) {
+        if ((input[i].type == 'text' || input[i].type == 'email') && input[i].value.trim() === '') {
+          document.getElementById('notif-' + input[i].id).style.display = 'flex';
+          isValid = false;
+        }
+      }
+    
+      let identityType = document.getElementsByName('identity_type');
+      let isIdentityChecked = false;
+      for (let j = 0; j < identityType.length; j++) {
+        if (identityType[j].checked) {
+          isIdentityChecked = true;
+          break;
+        }
+      }
+    
+      if (!isIdentityChecked) {
+        document.getElementById('notif-identity_type').style.display = 'flex';
+        isValid = false;
+      }
+    
+      for (let i = 0; i < select.length; i++) {
+        if (select[i].type == 'select-one' && select[i].value === '') {
+          document.getElementById('notif-' + select[i].id).style.display = 'flex';
+          isValid = false;
+        }
+      }
+    
+      // Jika form tidak valid, hentikan submit
+      if (!isValid) {
+        event.preventDefault();
+      }
+    };
 </script>
+    
 
 @endsection
