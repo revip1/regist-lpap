@@ -84,7 +84,7 @@
                         </li> --}}
                         @if(Auth::user()->role == 'company')
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('programs.create')}}">Program</a>
+                                <a class="nav-link" href="{{ route('request-program.create')}}">Program</a>
                             </li>
                         @endif
                     @else

@@ -4,6 +4,7 @@ use App\Http\Controllers\BatchController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProgramController;
+use App\Http\Controllers\RequestProgramController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UserDetailController;
 use Illuminate\Support\Facades\Route;
@@ -64,6 +65,14 @@ Route::get('/batches/{batch}', [BatchController::class, 'show'])->middleware(['a
 Route::get('/batches/{batch}/edit', [BatchController::class, 'edit'])->middleware(['auth', 'role:admin'])->name('batches.edit');
 Route::put('/batches/{batch}', [BatchController::class, 'update'])->middleware(['auth', 'role:admin'])->name('batches.update');
 Route::delete('/batches/{batch}', [BatchController::class, 'destroy'])->middleware(['auth', 'role:admin'])->name('batches.destroy');
+
+// Request Program
+Route::get('/request-program', [RequestProgramController::class, 'index'])->middleware(['auth', 'role:admin'])->name('request-program.index');
+Route::get('/request-program/create', [RequestProgramController::class, 'create'])->middleware(['auth', 'role:admin,company'])->name('request-program.create');
+Route::post('/request-program', [RequestProgramController::class, 'store'])->middleware(['auth', 'role:admin,company'])->name('request-program.store');
+Route::get('/request-program/{id}/edit', [RequestProgramController::class, 'edit'])->middleware(['auth', 'role:admin'])->name('request-program.edit');
+Route::put('/request-program/{id}', [RequestProgramController::class, 'update'])->middleware(['auth', 'role:admin'])->name('request-program.update');
+Route::delete('request-program/{id}', [RequestProgramController::class, 'destroy'])->middleware(['auth', 'role:admin'])->name('request-program.destroy');
 
 // Contacts (Bisa Diakses Semua User)
 Route::get('/contacts', [ContactController::class, 'create'])->name('contacts.create');
