@@ -28,13 +28,39 @@ class UserDetailController extends Controller
     public function create()
     {
         $programs = Program::all();
-        return view('user_details.create', compact('programs'));
+        $batch = Batch::all();
+        // return view('user_details.create', compact('programs'));
+        return view('user_details.create', [
+          'programs' => $programs,
+          'batch' => $batch
+        ]);
     }
 
     public function store(Request $request)
     {
-        $data = $request->validate([
+        if (isset($request->user_type) && $request->user_type == "company"):
+          $data = array();
+          $req = $request->all();
+          for ($i = 0; $i < $request->number_of_participants; $i++):
+            $data['email'] = $req['email'];
+            $data['instance'] = $req['instance'];
+            $data['program_id'] = $req['program_id'];
+            $data['batch_id'] = $req['batch_id'];
+            $data['place'] = $req['place'];
+            $data['number_of_participants'] = $req['number_of_participants'];
+            $data['name'] = $req['nama-'.($i+1)];
+            $data['position'] = $req['jabatan-'.($i+1)];
+            $data['phone_number'] = $req['no_handphone-'.($i+1)];
+            $data['reason_to_join'] = $req['reason_to_join'];
+            $data['information_source'] = $req['information_source'];
+            $data['referral'] = isset($req['referral'])? $req['referral'] : "";
+
+            UserDetail::create($data);
+          endfor;
+        else:
+          $data = $request->validate([
             'name' => 'required|string|max:255',
+            'gender' => 'required',
             'program_id' => 'required|exists:programs,id',
             'instance' => 'required|string|max:255',
             'email' => 'required|email',
@@ -47,34 +73,23 @@ class UserDetailController extends Controller
             'referral' => 'nullable|string|max:255',
             'occupation' => 'required|string|max:255',
             'batch_id' => 'required|exists:batches,id',
-        ]);
+            'place' => 'required'
+          ]);
 
-        // Ambil batch yang dipilih
-        $batch = Batch::findOrFail($data['batch_id']);
-
-        // Cek apakah jumlah peserta dalam batch sudah mencapai batas limit
-        $currentParticipants = $batch->users()->count();
-        if ($currentParticipants >= $batch->limit) {
-            return redirect()->back()->with('error', 'Kuota batch ini sudah penuh.');
-        }
-
-        // Cek apakah user sudah terdaftar dalam program ini
-        $existingUser = UserDetail::where('name', $data['name'])
+          $existingUser = UserDetail::where('name', $data['name'])
             ->where('identity_number', $data['identity_number'])
             ->where('program_id', $data['program_id'])
             ->exists();
 
-        if ($existingUser) {
-            return redirect()->back()->with('error', 'Peserta sudah terdaftar dalam kelas ini.');
-        }
+          if ($existingUser) {
+              return redirect()->back()->with('error', 'Peserta sudah terdaftar dalam kelas ini.');
+          }
 
-        // Tambahkan peserta baru jika masih ada slot
-        UserDetail::create($data);
+          UserDetail::create($data);
+        endif;
 
         return redirect()->back()->with('success', 'User berhasil ditambahkan.');
     }
-
-
 
     public function edit($id)
     {

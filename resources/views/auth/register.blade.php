@@ -21,16 +21,6 @@
             <x-text-input id="instance" class="block mt-1 w-full" type="text" name="instance" :value="old('instance')" required autofocus autocomplete="instance" />
             <x-input-error :messages="$errors->get('instance')" class="mt-2" />
         </div>
-        
-        <div>
-            <x-input-label for="role" :value="__('Role')" />
-            <select id="role" name="role" class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required autofocus>
-                <option value="" disabled {{ old('role') ? '' : 'selected' }}>Pilih Role</option>
-                <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>Perorangan</option>
-                <option value="company" {{ old('role') == 'company' ? 'selected' : '' }}>Perusahaan</option>
-            </select>
-            <x-input-error :messages="$errors->get('role')" class="mt-2" />
-        </div>
 
         <!-- Password -->
         <div class="mt-4">

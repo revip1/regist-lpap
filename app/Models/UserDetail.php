@@ -9,7 +9,13 @@ class UserDetail extends Model
 {
     protected $fillable = [
         'name',
+        'gender',
+        'last_education',
+        'position',
         'program_id',
+        'batch_id',
+        'place',
+        'number_of_participants',
         'instance',
         'email',
         'address',
@@ -19,8 +25,6 @@ class UserDetail extends Model
         'phone_number',
         'information_source',
         'referral',
-        'occupation',
-        'batch_id',
     ];
 
     public function program(): BelongsTo
