@@ -10,8 +10,11 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Name</th>
+                    <th>Program</th>
+                    <th>Batch</th>
                     <th>Limit</th>
+                    <th>Estimated Time</th>
+                    <th>Program Type</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -19,8 +22,11 @@
                 @foreach($batches as $batch)
                     <tr>
                         <td>{{ $batch->id }}</td>
+                        <td>{{ $batch->program->name }}</td>
                         <td>{{ $batch->name }}</td>
                         <td>{{ $batch->limit }}</td>
+                        <td>{{ $batch->estimated_time }}</td>
+                        <td>{{ implode(', ', json_decode($batch->program_type, true)) }}</td>
                         <td>
                             <a href="{{ route('batches.edit', $batch->id) }}" class="btn btn-warning">Edit</a>
                             <form action="{{ route('batches.destroy', $batch->id) }}" method="POST" style="display:inline-block;">

@@ -88,13 +88,13 @@
                             </li>
                         @endif
                     @else
-                        {{-- <li class="nav-item">
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('programs.index') }}">Program</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('batches.index')}}">Batch</a>
                         </li>
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a class="nav-link" href="{{ route('tickets.index') }}">Tiket</a>
                         </li> --}}
                         <li class="nav-item">

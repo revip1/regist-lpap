@@ -8,38 +8,38 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Batch extends Model
 {
-    protected $fillable = ['program_id', 'name', 'limit'];
+    protected $fillable = ['program_id', 'name', 'limit', 'estimated_time', 'program_type'];
 
-    protected static function boot()
-    {
-        parent::boot();
+    // protected static function boot()
+    // {
+    //     parent::boot();
 
-        // Observer untuk event "updated"
-        static::updated(function ($batch) {
-            if ($batch->wasChanged('name')) {
-                // Update semua tiket yang terkait
-                $tickets = $batch->tickets;
-                foreach ($tickets as $ticket) {
-                    $program = $ticket->program;
-                    $participantNumber = substr($ticket->unique_code, -3); // Mengambil 3 digit terakhir
+    //     // Observer untuk event "updated"
+    //     static::updated(function ($batch) {
+    //         if ($batch->wasChanged('name')) {
+    //             // Update semua tiket yang terkait
+    //             $tickets = $batch->tickets;
+    //             foreach ($tickets as $ticket) {
+    //                 $program = $ticket->program;
+    //                 $participantNumber = substr($ticket->unique_code, -3); // Mengambil 3 digit terakhir
                     
-                    // Membuat kode unik baru dengan format yang sama
-                    $newUniqueCode = sprintf(
-                        "LPAP-%sG%s%s-%s",
-                        $program->code,
-                        $batch->name,
-                        $ticket->year,
-                        $participantNumber
-                    );
+    //                 // Membuat kode unik baru dengan format yang sama
+    //                 $newUniqueCode = sprintf(
+    //                     "LPAP-%sG%s%s-%s",
+    //                     $program->code,
+    //                     $batch->name,
+    //                     $ticket->year,
+    //                     $participantNumber
+    //                 );
 
-                    // Update kode unik tiket
-                    $ticket->update([
-                        'unique_code' => $newUniqueCode
-                    ]);
-                }
-            }
-        });
-    }
+    //                 // Update kode unik tiket
+    //                 $ticket->update([
+    //                     'unique_code' => $newUniqueCode
+    //                 ]);
+    //             }
+    //         }
+    //     });
+    // }
 
     public function program(): BelongsTo
     {
@@ -49,5 +49,10 @@ class Batch extends Model
     public function tickets(): HasMany
     {
         return $this->hasMany(Ticket::class, 'batch_id');
+    }
+
+    public function users(): HasMany
+    {
+        return $this->hasMany(UserDetail::class, 'batch_id');
     }
 }

@@ -29,7 +29,11 @@ class BatchController extends Controller
             'program_id' => 'required|exists:programs,id',
             'name' => 'required|string|max:255',
             'limit' => 'required|integer|min:1',
+            'estimated_time' => 'required',
+            'program_type' => 'required',
         ]);
+
+        $request['program_type'] = json_encode($request['program_type']);
 
         Batch::create($request->all());
 

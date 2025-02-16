@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('programs', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('label');
-            $table->text('description')->nullable();
-            $table->timestamps();
+        Schema::table('batches', function (Blueprint $table) {
+            $table->date('estimated_time');
         });
     }
 
@@ -25,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('programs');
+        Schema::table('batches', function (Blueprint $table) {
+            //
+        });
     }
 };

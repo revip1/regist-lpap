@@ -20,10 +20,16 @@ class UserDetail extends Model
         'information_source',
         'referral',
         'occupation',
+        'batch_id',
     ];
 
     public function program(): BelongsTo
     {
         return $this->belongsTo(Program::class, 'program_id');
+    }
+
+    public function batch(): BelongsTo
+    {
+        return $this->belongsTo(Batch::class, 'batch_id');
     }
 }

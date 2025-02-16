@@ -18,10 +18,10 @@
                     <label for="description" class="form-label">Deskripsi</label>
                     <textarea id="description" name="description" class="form-control" rows="3" placeholder="Deskripsi" required></textarea>
                 </div>
-                <div class="mb-3">
+                {{-- <div class="mb-3">
                     <label for="place" class="form-label">Tempat Pelaksanaan</label>
                     <input type="text" id="place" name="place" class="form-control" placeholder="Tempat" required>
-                </div>
+                </div> --}}
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </form>

@@ -134,8 +134,7 @@
                     <!-- Authentication Links -->
                     @auth
                         <li class="nav-item">
-                            <!-- <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a> -->
-                            <a class="nav-link" href="../">Dashboard</a>
+                            <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('user_details.create')}}">Registrasi Kelas</a>

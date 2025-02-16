@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('programs', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('label');
-            $table->text('description')->nullable();
-            $table->timestamps();
+        Schema::table('user_details', function (Blueprint $table) {
+            $table->unsignedBigInteger('batch_id')->nullable()->after('id');
+            $table->foreign('batch_id')->references('id')->on('batches')->onDelete('SET NULL');
         });
     }
 
@@ -25,6 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('programs');
+        Schema::table('user_details', function (Blueprint $table) {
+            //
+        });
     }
 };

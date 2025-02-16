@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Batch;
 use App\Models\Program;
 use App\Models\UserDetail;
 use Illuminate\Http\Request;
@@ -38,15 +39,26 @@ class UserDetailController extends Controller
             'instance' => 'required|string|max:255',
             'email' => 'required|email',
             'address' => 'required|string',
-            'identity_type' => 'nullable|in:KTP,SIM,KP',
-            'identity_number' => 'nullable|string|max:50',
-            'reason_to_join' => 'nullable|string',
+            'identity_type' => 'required|in:KTP,SIM,KP',
+            'identity_number' => 'required|string|max:50',
+            'reason_to_join' => 'required|string',
             'phone_number' => 'required|string|max:15',
             'information_source' => 'nullable|string|max:255',
             'referral' => 'nullable|string|max:255',
-            'occupation' => 'nullable|string|max:255',
+            'occupation' => 'required|string|max:255',
+            'batch_id' => 'required|exists:batches,id',
         ]);
-        
+
+        // Ambil batch yang dipilih
+        $batch = Batch::findOrFail($data['batch_id']);
+
+        // Cek apakah jumlah peserta dalam batch sudah mencapai batas limit
+        $currentParticipants = $batch->users()->count();
+        if ($currentParticipants >= $batch->limit) {
+            return redirect()->back()->with('error', 'Kuota batch ini sudah penuh.');
+        }
+
+        // Cek apakah user sudah terdaftar dalam program ini
         $existingUser = UserDetail::where('name', $data['name'])
             ->where('identity_number', $data['identity_number'])
             ->where('program_id', $data['program_id'])
@@ -56,10 +68,12 @@ class UserDetailController extends Controller
             return redirect()->back()->with('error', 'Peserta sudah terdaftar dalam kelas ini.');
         }
 
+        // Tambahkan peserta baru jika masih ada slot
         UserDetail::create($data);
 
         return redirect()->back()->with('success', 'User berhasil ditambahkan.');
     }
+
 
 
     public function edit($id)
