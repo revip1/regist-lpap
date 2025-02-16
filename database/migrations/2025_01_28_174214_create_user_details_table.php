@@ -26,9 +26,9 @@ return new class extends Migration
             $table->enum('gender', ['1', '2'])->nullable();
             $table->enum('identity_type', ['KTP', 'SIM', 'KP'])->nullable();
             $table->string('identity_number')->nullable();
-            $table->text('reason_to_join');
+            $table->text('reason_to_join')->nullable();
             $table->string('phone_number');
-            $table->string('information_source');
+            $table->string('information_source')->nullable();
             $table->string('referral')->nullable();
             $table->string('occupation')->nullable();
             $table->timestamps();
