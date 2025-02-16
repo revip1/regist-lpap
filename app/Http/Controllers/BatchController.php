@@ -50,9 +50,14 @@ class BatchController extends Controller
     public function edit(Batch $batch)
     {
         $programs = Program::all();
-        
+
+        if (now()->greaterThan($batch->estimated_time)) {
+            return redirect()->route('batches.index')->withErrors(['batch' => 'Batch sudah melewati waktu estimasi dan tidak dapat diperbarui.']);
+        }
+
         return view('batches.edit', compact('batch', 'programs'));
     }
+
 
     
     public function update(Request $request, Batch $batch)
@@ -61,12 +66,15 @@ class BatchController extends Controller
             'program_id' => 'required|exists:programs,id',
             'name' => 'required|string|max:255',
             'limit' => 'required|integer|min:1',
+            'estimated_time' => 'required',
+            'program_type' => 'required',
         ]);
 
         $batch->update($request->all());
 
         return redirect()->route('batches.index')->with('success', 'Batch berhasil diperbarui.');
     }
+
 
     
     public function destroy(Batch $batch)

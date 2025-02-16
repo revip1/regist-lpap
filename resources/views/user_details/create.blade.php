@@ -151,47 +151,55 @@ form div label {
     });
 
     document.getElementById('registrasi').onsubmit = function(event) {
-      let isValid = true;
-      let notif = document.getElementsByClassName('notif-empty'),
-          input = document.getElementsByTagName('input'),
-          select = document.getElementsByTagName('select');
-    
-      for (let i = 0; i < notif.length; i++) {
-        notif[i].style.display = 'none';
-      }
-    
-      for (let i = 0; i < input.length; i++) {
-        if ((input[i].type == 'text' || input[i].type == 'email') && input[i].value.trim() === '') {
-          document.getElementById('notif-' + input[i].id).style.display = 'flex';
-          isValid = false;
+        let isValid = true;
+        let notif = document.getElementsByClassName('notif-empty'),
+            input = document.getElementsByTagName('input'),
+            select = document.getElementsByTagName('select');
+
+        // Sembunyikan semua notifikasi error
+        for (let i = 0; i < notif.length; i++) {
+            notif[i].style.display = 'none';
         }
-      }
-    
-      let identityType = document.getElementsByName('identity_type');
-      let isIdentityChecked = false;
-      for (let j = 0; j < identityType.length; j++) {
-        if (identityType[j].checked) {
-          isIdentityChecked = true;
-          break;
+
+        // Validasi input teks dan email
+        for (let i = 0; i < input.length; i++) {
+            if (
+                (input[i].type == 'text' || input[i].type == 'email') && 
+                input[i].value.trim() === '' &&
+                !input[i].disabled // Abaikan input yang disabled
+            ) {
+                document.getElementById('notif-' + input[i].id).style.display = 'flex';
+                isValid = false;
+            }
         }
-      }
-    
-      if (!isIdentityChecked) {
-        document.getElementById('notif-identity_type').style.display = 'flex';
-        isValid = false;
-      }
-    
-      for (let i = 0; i < select.length; i++) {
-        if (select[i].type == 'select-one' && select[i].value === '') {
-          document.getElementById('notif-' + select[i].id).style.display = 'flex';
-          isValid = false;
+
+        // Validasi radio button identity_type
+        let identityType = document.getElementsByName('identity_type');
+        let isIdentityChecked = false;
+        for (let j = 0; j < identityType.length; j++) {
+            if (identityType[j].checked) {
+                isIdentityChecked = true;
+                break;
+            }
         }
-      }
-    
-      // Jika form tidak valid, hentikan submit
-      if (!isValid) {
-        event.preventDefault();
-      }
+
+        if (!isIdentityChecked) {
+            document.getElementById('notif-identity_type').style.display = 'flex';
+            isValid = false;
+        }
+
+        // Validasi select
+        for (let i = 0; i < select.length; i++) {
+            if (select[i].type == 'select-one' && select[i].value === '') {
+                document.getElementById('notif-' + select[i].id).style.display = 'flex';
+                isValid = false;
+            }
+        }
+
+        // Jika form tidak valid, hentikan submit
+        if (!isValid) {
+            event.preventDefault();
+        }
     };
 </script>
     
