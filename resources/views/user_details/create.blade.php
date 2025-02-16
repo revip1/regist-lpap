@@ -22,10 +22,7 @@ form div label, form p {
         @csrf
         @guest
         <input type="hidden" id="user_type" value="guest" />
-        @guest
-        <input type="hidden" id="user_type" value="guest" />
         <div class="mb-4">
-            <label for="name" class="form-label">Nama Lengkap *</label>
             <label for="name" class="form-label">Nama Lengkap *</label>
             <input type="text" name="name" id="name" class="form-control form-control-sm" value="{{ old('name') }}" required>
             <span id="notif-name" class="notif-empty">Nama Lengkap belum diisi!</span>
@@ -55,39 +52,13 @@ form div label, form p {
               <?php endfor; ?>
             </select>
             <span id="notif-last_education" class="notif-empty">Pendidikan Terakhir belum dipilih!</span>
-            <label class="form-label">Jenis Kelamin *</label>
-            <div class="d-flex gap-3">
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="gender" id="gender_laki_laki" value="1" {{ old('gender') == '1' ? 'checked' : '' }}>
-                    <label class="form-check-label" for="gender_laki_laki">Laki-laki</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="gender" id="gender_perempuan" value="2" {{ old('identity_type') == '2' ? 'checked' : '' }}>
-                    <label class="form-check-label" for="gender_perempuan">Perempuan</label>
-                </div>
-            </div>
-            <span id="notif-gender" class="notif-empty">Jenis Kelamin belum dipilih!</span>
         </div>
         <div class="mb-4">
-            <label for="last_education" class="form-label">Pendidikan Terakhir *</label>
-            <select name="last_education" id="last_education" class="form-control form-control-sm" required>
-              <option value="">Pilih Salah Satu</option>
-              <?php
-              $arr_pendidikan = array("SMA/SMK", "S1", "S2");
-              for($i = 0; $i < count($arr_pendidikan); $i++): ?>
-                <option <?=($arr_pendidikan[$i] == old('last_education'))? "selected" : ""?>><?=$arr_pendidikan[$i]?></option>
-              <?php endfor; ?>
-            </select>
-            <span id="notif-last_education" class="notif-empty">Pendidikan Terakhir belum dipilih!</span>
-        </div>
-        <div class="mb-4">
-            <label for="occupation" class="form-label">Status *</label>
             <label for="occupation" class="form-label">Status *</label>
             <!-- <input type="text" name="occupation" id="occupation" class="form-control form-control-sm" value="{{ old('occupation') }}" required> -->
             <select name="occupation" id="occupation" class="form-control form-control-sm" required>
               <option value="">Pilih Salah Satu</option>
               <?php
-              $arr_pekerjaan = array("Mahasiswa", "PNS", "Guru", "Karyawan Swasta", "Lainnya");
               $arr_pekerjaan = array("Mahasiswa", "PNS", "Guru", "Karyawan Swasta", "Lainnya");
               for($i = 0; $i < count($arr_pekerjaan); $i++): ?>
                 <option <?=($arr_pekerjaan[$i] == old('occupation'))? "selected" : ""?>><?=$arr_pekerjaan[$i]?></option>
@@ -99,27 +70,18 @@ form div label, form p {
             <label for="instance" class="form-label">Instansi/ Kampus *</label>
             <input type="text" name="instance" id="instance" class="form-control form-control-sm" value="{{ old('instance') }}" required>
             <span id="notif-instance" class="notif-empty">Instansi/ Kampus belum diisi!</span>
-            <span id="notif-occupation" class="notif-empty">Status belum dipilih!</span>
         </div>
         <div class="mb-4">
-            <label for="instance" class="form-label">Instansi/ Kampus *</label>
-            <input type="text" name="instance" id="instance" class="form-control form-control-sm" value="{{ old('instance') }}" required>
-            <span id="notif-instance" class="notif-empty">Instansi/ Kampus belum diisi!</span>
-        </div>
-        <div class="mb-4">
-            <label for="email" class="form-label">Email *</label>
             <label for="email" class="form-label">Email *</label>
             <input type="email" name="email" id="email" class="form-control form-control-sm" value="{{ old('email') }}" required>
             <span id="notif-email" class="notif-empty">E-mail belum diisi!</span>
         </div>
         <div class="mb-4">
             <label for="address" class="form-label">Alamat Lengkap *</label>
-            <label for="address" class="form-label">Alamat Lengkap *</label>
             <input type="text" name="address" id="address" class="form-control form-control-sm" value="{{ old('address') }}" required>
             <span id="notif-address" class="notif-empty">Alamat Lengkap belum diisi!</span>
         </div>
         <div class="mb-4">
-            <label class="form-label">Jenis Identitas *</label>
             <label class="form-label">Jenis Identitas *</label>
             <div class="d-flex gap-3">
                 <div class="form-check form-check-inline">
@@ -133,64 +95,32 @@ form div label, form p {
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="identity_type" id="kp" value="KP" {{ old('identity_type') == 'KP' ? 'checked' : '' }}>
                     <label class="form-check-label" for="kp">KTM(Mahasiswa Aktif)</label>
-                    <label class="form-check-label" for="kp">KTM(Mahasiswa Aktif)</label>
                 </div>
             </div>
             <span id="notif-identity_type" class="notif-empty">Jenis Identitas belum dipilih!</span>
         </div>
         <div class="mb-4">
             <label for="identity_number" class="form-label">Nomor Identitas *</label>
-            <label for="identity_number" class="form-label">Nomor Identitas *</label>
             <input type="text" name="identity_number" id="identity_number" class="form-control form-control-sm" value="{{ old('identity_number') }}">
             <span id="notif-identity_number" class="notif-empty">Nomor Identitas belum diisi!</span>
         </div>
         <div class="mb-4">
             <label for="phone_number" class="form-label">Nomor Telepon/ WhatsApp *</label>
-            <label for="phone_number" class="form-label">Nomor Telepon/ WhatsApp *</label>
             <input type="text" name="phone_number" id="phone_number" class="form-control form-control-sm" value="{{ old('phone_number') }}" required>
             <span id="notif-phone_number" class="notif-empty">Nomor Telepon/ WhatsApp belum diisi!</span>
         </div>
         @endguest
-        @endguest
         <div class="mb-4">
-            <label for="program_id" class="form-label">Kelas *</label>
             <label for="program_id" class="form-label">Kelas *</label>
             <select name="program_id" id="program_id" class="form-control" required>
                 <option value="">Pilih Kelas</option>
                 @foreach($programs as $program)
-                    <option value="{{ $program->id }}" data-referral="{{ $program->referral_required }}">{{ $program->name }}</option>
                     <option value="{{ $program->id }}" data-referral="{{ $program->referral_required }}">{{ $program->name }}</option>
                 @endforeach
             </select>
             <span id="notif-program_id" class="notif-empty">Kelas belum dipilih!</span>
         </div>
         <div class="mb-4">
-            <label for="batch_id" class="form-label">Sesi *</label>
-            <select name="batch_id" id="batch_id" class="form-control" required>
-                <option value="">Pilih Salah Satu</option>
-            </select>
-            <span id="notif-batch_id" class="notif-empty">Sesi belum dipilih!</span>
-        </div>
-        <div class="mb-4">
-            <label for="place" class="form-label">Tempat Pelaksanaan *</label>
-            <select name="place" id="place" class="form-control" required>
-                <option value="">Pilih Salah Satu</option>
-            </select>
-            <span id="notif-place" class="notif-empty">Tempat Pelaksanaan belum dipilih!</span>
-        </div>
-        @if(Auth::check() && Auth::user()->role == 'company')
-        <input type="hidden" id="user_type" name="user_type" value="company" />
-        <input type="hidden" id="instance" name="instance" value="{{ Auth::user()->instance }}" />
-        <input type="hidden" id="email" name="email" value="{{ Auth::user()->email }}" />
-          <div class="mb-4">
-              <label for="number_of_participants" class="form-label">Jumlah Peserta *</label>
-              <input type="number" name="number_of_participants" id="number_of_participants" class="form-control form-control-sm" onkeyup="changeJmlPeserta(this)" required />
-              <span id="notif-number_of_participants" class="notif-empty">Jumlah Peserta belum diisi!</span>
-          </div>
-          <div id="formInput-company"></div>
-        @endif
-        <div class="mb-4">
-            <label for="reason_to_join" class="form-label">Alasan Mengikuti *</label>
             <label for="batch_id" class="form-label">Sesi *</label>
             <select name="batch_id" id="batch_id" class="form-control" required>
                 <option value="">Pilih Salah Satu</option>
@@ -230,15 +160,6 @@ form div label, form p {
                 <option <?=($arr_source[$i] == old('information_source'))? "selected" : ""?>><?=$arr_source[$i]?></option>
               <?php endfor; ?>
             </select>
-            <label for="information_source" class="form-label">Sumber Informasi *</label>
-            <select name="information_source" id="information_source" class="form-control form-control-sm" required>
-              <option value="">Pilih Salah Satu</option>
-              <?php
-              $arr_source = array("E-mail", "Guru", "Teman", "Instagram", "WhatsApp");
-              for($i = 0; $i < count($arr_source); $i++): ?>
-                <option <?=($arr_source[$i] == old('information_source'))? "selected" : ""?>><?=$arr_source[$i]?></option>
-              <?php endfor; ?>
-            </select>
             <span id="notif-information_source" class="notif-empty">Sumber Informasi belum diisi!</span>
         </div>
         <div class="mb-4">
@@ -247,8 +168,6 @@ form div label, form p {
             <span id="notif-referral" class="notif-empty">Referral belum diisi!</span>
         </div>
         <button type="submit" id="submit" class="btn btn-primary">Submit</button>
-
-        <p class="mt-4">Keterangan<br />*) Harus diisi</p>
 
         <p class="mt-4">Keterangan<br />*) Harus diisi</p>
     </form>
@@ -471,7 +390,6 @@ form div label, form p {
 
     
 </script>
-
 
 
 @endsection
