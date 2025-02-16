@@ -48,6 +48,7 @@
                 <th>Nomor WhatsApp</th>
                 <th>Email</th>
                 <th>Program</th>
+                <th>Pelaksanaan</th>
                 <th>Download Certificate</th>
                 <th>Aksi</th>
             </tr>
@@ -60,6 +61,7 @@
                     <td>{{ $userDetail->phone_number }}</td>
                     <td>{{ $userDetail->email }}</td>
                     <td>{{ $userDetail->program->name ?? 'Tidak tersedia' }}</td>
+                    <td>{{ $userDetail->batch->estimated_time }}</td>
                     <td>
                         <a href="{{ route('export_pdf', $userDetail->id) }}" class="btn btn-success btn-sm">
                             Download Certificate

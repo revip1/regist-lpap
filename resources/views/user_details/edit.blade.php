@@ -33,16 +33,6 @@
             <label for="institution" class="form-label">Asal Instansi</label>
             <input type="text" name="institution" id="institution" class="form-control" value="{{ $userDetail->institution }}" required>
         </div>
-        <div class="mb-3">
-            <label for="tiket_id" class="form-label">Tiket Pelatihan</label>
-            <select id="tiket_id" name="tiket_id" class="form-control" required>
-                @foreach($tikets as $tiket)
-                    <option value="{{ $tiket->id }}" {{ $userDetail->tiket_id == $tiket->id ? 'selected' : '' }}>
-                        {{ $tiket->code }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
         
         <div class="mb-3">
             <label for="reason" class="form-label">Alasan Mengikuti</label>

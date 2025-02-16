@@ -59,7 +59,7 @@ form div label, form p {
             <select name="occupation" id="occupation" class="form-control form-control-sm" required>
               <option value="">Pilih Salah Satu</option>
               <?php
-              $arr_pekerjaan = array("Mahasiswa", "PNS", "Guru", "Karyawan Swasta", "Lainnya");
+              $arr_pekerjaan = array("Mahasiswa", "PNS", "Dosen/Guru", "Karyawan Swasta", "Lainnya");
               for($i = 0; $i < count($arr_pekerjaan); $i++): ?>
                 <option <?=($arr_pekerjaan[$i] == old('occupation'))? "selected" : ""?>><?=$arr_pekerjaan[$i]?></option>
               <?php endfor; ?>

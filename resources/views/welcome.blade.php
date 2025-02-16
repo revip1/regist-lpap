@@ -210,10 +210,7 @@
                 <div class="col-md-4 text-center mt-2">
                     <h5 class="fw-bold">FOLLOW US</h5>
                     <div>
-                        <a href="#" class="text-white fs-4 me-3"><i class="bi bi-facebook"></i></a>
-                        <a href="#" class="text-white fs-4 me-3"><i class="bi bi-twitter"></i></a>
                         <a href="#" class="text-white fs-4 me-3"><i class="bi bi-instagram"></i></a>
-                        <a href="#" class="text-white fs-4"><i class="bi bi-linkedin"></i></a>
                     </div>
                 </div>
 

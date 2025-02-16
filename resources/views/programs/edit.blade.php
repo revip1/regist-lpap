@@ -17,10 +17,19 @@
             <label for="description" class="form-label">Deskripsi</label>
             <textarea id="description" name="description" class="form-control" rows="3" required>{{ old('description', $program->description) }}</textarea>
         </div>
-        <div class="mb-3">
-            <label for="code" class="form-label">Kode</label>
-            <input type="text" id="code" name="code" class="form-control" value="{{ old('code', $program->code) }}" required>
-        </div>
+        <div class="mb-4">
+                    <label class="form-label">Apakah Referral Diperlukan?</label>
+                    <div class="d-flex gap-3">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="referral_required" id="referral_yes" value="yes" {{ old('referral_required') == 'yes' ? 'checked' : '' }}>
+                            <label class="form-check-label" for="referral_yes">Ya</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="referral_required" id="referral_no" value="no" {{ old('referral_required') == 'no' ? 'checked' : '' }}>
+                            <label class="form-check-label" for="referral_no">Tidak</label>
+                        </div>
+                    </div>
+                </div>     
         <button type="submit" class="btn btn-primary">Update</button>
     </form>
 @endsection
