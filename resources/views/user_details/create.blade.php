@@ -66,7 +66,7 @@ form div label {
                 </div>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="identity_type" id="kp" value="KP" {{ old('identity_type') == 'KP' ? 'checked' : '' }}>
-                    <label class="form-check-label" for="kp">KTM/Kartu Pelajar</label>
+                    <label class="form-check-label" for="kp">KTM (Khusus Mahasiswa Aktif)</label>
                 </div>
             </div>
             <span id="notif-identity_type" class="notif-empty">Jenis Identitas belum dipilih!</span>
@@ -103,7 +103,7 @@ form div label {
         </div>
         <div class="mb-4">
             <label for="referral" class="form-label">Referral</label>
-            <input type="text" name="referral" id="referral" class="form-control form-control-sm" value="{{ old('referral') }}">
+            <input type="text" name="referral" id="referral" class="form-control form-control-sm" value="{{ old('referral') }}" {{ optional($programs->firstWhere('id', old('program_id')))->referral_required == 'no' ? 'disabled' : '' }}>
             <span id="notif-referral" class="notif-empty">Referral belum diisi!</span>
         </div>
         <button type="submit" id="submit" class="btn btn-primary">Submit</button>
@@ -132,6 +132,24 @@ form div label {
 @endif
 
 <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const programSelect = document.getElementById('program_id');
+        const referralInput = document.getElementById('referral');
+
+        programSelect.addEventListener('change', function () {
+            const selectedProgram = this.value;
+            const programs = @json($programs); // Ambil data program dari Blade
+            const selected = programs.find(p => p.id == selectedProgram);
+
+            if (selected && selected.referral_required === 'no') {
+                referralInput.value = '';
+                referralInput.setAttribute('disabled', 'disabled');
+            } else {
+                referralInput.removeAttribute('disabled');
+            }
+        });
+    });
+
     document.getElementById('registrasi').onsubmit = function(event) {
       let isValid = true;
       let notif = document.getElementsByClassName('notif-empty'),

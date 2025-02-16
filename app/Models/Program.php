@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Program extends Model
 {
-    protected $fillable = ['name', 'label', 'description'];
+    protected $fillable = ['name', 'label', 'description', 'referral_required'];
 
     public function tickets()
     {

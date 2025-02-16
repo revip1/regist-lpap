@@ -33,6 +33,7 @@ class ProgramController extends Controller
                 'name' => 'required|string|max:255',
                 'label' => 'required|string|max:255',
                 'description' => 'required|string',
+                'referral_required' => 'required',
             ]);
     
             // Simpan data ke database
@@ -65,6 +66,7 @@ class ProgramController extends Controller
             'name' => 'required|string|max:255',
             'label' => 'required|string|max:255',
             'description' => 'required|string',
+            'referral_required' => 'required',
         ]);
 
         // Cari program berdasarkan ID
