@@ -73,7 +73,8 @@ class UserDetailController extends Controller
             'referral' => 'nullable|string|max:255',
             'occupation' => 'required|string|max:255',
             'batch_id' => 'required|exists:batches,id',
-            'place' => 'required'
+            'place' => 'required',
+            'last_education' => 'required|string',
           ]);
 
           $existingUser = UserDetail::where('name', $data['name'])

@@ -283,6 +283,60 @@ form div label, form p {
         }
       }, 700)
     }
+
+    document.getElementById('batch_id').onchange = function(e) {
+      let row = {},
+          id = 0,
+          data = []
+      for (let i = 0; i < e.target.length; i++) {
+        row = e.target[i]
+
+        if (row.selected) {
+          data = JSON.parse(row.dataset.places)
+          console.log(data);
+          
+        }
+      }
+
+      for (let i = 0; i < data.length; i++) {
+        let option = document.createElement('option')
+
+        option.innerText = data[i]
+
+        document.getElementById('place').append(option)
+      }
+    }
+
+    document.getElementById('program_id').onchange = function(e) {
+      let row = {},
+          id = 0,
+          data = <?=$batch?>
+
+
+      for (let i = 0; i < e.target.length; i++) {
+        row = e.target[i]
+
+        if (row.selected) {
+          id = row.value
+
+          if(row.dataset.referral == 'no'){
+            document.getElementById('referral').disabled = true
+          }
+        }
+      }
+
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].program_id == id) {
+          let option = document.createElement('option')
+
+          option.value = data[i].id
+          option.innerText = data[i].name
+          option.dataset.places = data[i].program_type
+
+          document.getElementById('batch_id').append(option)
+        }
+      }
+    }
     
 
     document.getElementById('registrasi').onsubmit = function(event) {
