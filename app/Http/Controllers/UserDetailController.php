@@ -77,6 +77,15 @@ class UserDetailController extends Controller
             'last_education' => 'required|string',
           ]);
 
+           
+          $batch = Batch::findOrFail($data['batch_id']);
+
+          
+          $currentParticipants = $batch->users()->count();
+          if ($currentParticipants >= $batch->limit) {
+              return redirect()->back()->with('error', 'Kuota batch ini sudah penuh.');
+          }
+
           $existingUser = UserDetail::where('name', $data['name'])
             ->where('identity_number', $data['identity_number'])
             ->where('program_id', $data['program_id'])
