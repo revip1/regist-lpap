@@ -33,6 +33,19 @@
                         @endforeach
                     </select>
                 </div>
+                <div class="col-md-4">
+                    <label for="user_role" class="form-label">Tipe Pendaftar</label>
+                    <select name="user_role" id="user_role" class="form-select">
+                        <option value="">Semua</option>
+                        <option value="company" {{ request('user_role') == 'company' ? 'selected' : '' }}>Company</option>
+                        <option value="user" {{ request('user_role') == 'user' ? 'selected' : '' }}>Individu</option>
+                    </select>
+                </div>                          
+                <div class="col-md-6">
+                    <label for="search_name" class="form-label">Cari Nama</label>
+                    <input type="text" name="search_name" id="search_name" class="form-control" 
+                           value="{{ request('search_name') }}" placeholder="Masukkan nama...">
+                </div>                
                 <div class="col-md-2 d-flex align-items-end">
                     <button type="submit" class="btn btn-primary w-100">Filter</button>
                 </div>
@@ -49,6 +62,7 @@
                 <th>Email</th>
                 <th>Program</th>
                 <th>Pelaksanaan</th>
+                <th>Role</th>
                 <th>Download Certificate</th>
                 <th>Aksi</th>
             </tr>
@@ -62,6 +76,7 @@
                     <td>{{ $userDetail->email }}</td>
                     <td>{{ $userDetail->program->name ?? 'Tidak tersedia' }}</td>
                     <td>{{ $userDetail->batch->estimated_time }}</td>
+                    <td>{{ optional($userDetail->user)->role == 'company' ? 'Company' : 'Individu' }}</td>                    
                     <td>
                         <a href="{{ route('export_pdf', $userDetail->id) }}" class="btn btn-success btn-sm">
                             Download Certificate

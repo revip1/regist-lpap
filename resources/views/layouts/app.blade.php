@@ -101,7 +101,7 @@
                             <a class="nav-link" href="../">Dashboard</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('user_details.create') }}">Registrasi Kelas</a>
+                            <a class="nav-link" href="{{ route('user_details.index') }}">Registrasi Kelas</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="../contacts">Contact</a>

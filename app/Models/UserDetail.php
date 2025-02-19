@@ -36,4 +36,10 @@ class UserDetail extends Model
     {
         return $this->belongsTo(Batch::class, 'batch_id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'email', 'email');
+    }
+
 }
