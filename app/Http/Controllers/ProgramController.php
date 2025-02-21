@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Program;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class ProgramController extends Controller
 {
@@ -83,12 +85,19 @@ class ProgramController extends Controller
     }
 
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
+        $request->validate([
+            'password' => 'required',
+        ]);
+
+        if (!Hash::check($request->password, Auth::user()->password)) {
+            return redirect()->route('programs.index')->with('error', 'Password salah. Program tidak dihapus.');
+        }
+
         $program = Program::find($id);
         if ($program) {
             $program->update(['status' => 'inactive']);
-
             return redirect()->route('programs.index')->with('success', 'Program telah dinonaktifkan.');
         } else {
             return redirect()->route('programs.index')->with('error', 'Program tidak ditemukan.');

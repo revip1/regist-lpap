@@ -131,8 +131,9 @@ class UserDetailController extends Controller
     {
         $userDetail = UserDetail::findOrFail($id);
         $programs = Program::all();
+        $batches = Batch::all();
 
-        return view('user_details.edit', compact('userDetail', 'programs'));
+        return view('user_details.edit', compact('userDetail', 'programs', 'batches'));
     }
 
     public function update(Request $request, $id)
