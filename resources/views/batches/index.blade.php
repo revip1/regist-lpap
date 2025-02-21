@@ -29,12 +29,13 @@
                         <td>{{ implode(', ', json_decode($batch->program_type, true)) }}</td>
                         <td>
                             <a href="{{ route('batches.edit', $batch->id) }}" class="btn btn-warning">Edit</a>
-                            <form action="{{ route('batches.destroy', $batch->id) }}" method="POST" style="display:inline-block;">
+                            <form class="delete-form" action="{{ route('batches.destroy', $batch->id) }}" method="POST" style="display:inline-block;">
                                 @csrf
                                 @method('DELETE')
-                                <button class="btn btn-danger">Delete</button>
+                                <button type="button" class="btn btn-danger delete-btn" data-id="{{ $batch->id }}">Delete</button>
                             </form>
                         </td>
+                        
                     </tr>
                 @endforeach
             </tbody>
@@ -64,10 +65,12 @@
             @endif
 
     
-            document.querySelectorAll('.delete-btn').forEach(button => {
-                button.addEventListener('click', function() {
-                    const batchId = this.getAttribute('data-id');
-    
+            document.addEventListener('DOMContentLoaded', function () {
+            document.body.addEventListener('click', function (event) {
+                if (event.target.classList.contains('delete-btn')) {
+                    event.preventDefault();
+                    const form = event.target.closest('.delete-form');
+
                     Swal.fire({
                         title: 'Apakah Anda yakin?',
                         text: "Data batch akan dihapus secara permanen!",
@@ -79,28 +82,15 @@
                         cancelButtonText: 'Batal'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            fetch(`{{ url('batches') }}/${batchId}`, {
-                                method: 'POST',
-                                headers: {
-                                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify({ _method: 'DELETE' })
-                            }).then(response => {
-                                if (response.ok) {
-                                    Swal.fire(
-                                        'Deleted!',
-                                        'Batch berhasil dihapus.',
-                                        'success'
-                                    ).then(() => {
-                                        location.reload();
-                                    });
-                                }
-                            });
+                            form.submit(); // Hanya submit form jika user menekan "Ya, hapus!"
                         }
                     });
-                });
+                }
             });
+        });
+
+
+
         </script>
     </div>
     
