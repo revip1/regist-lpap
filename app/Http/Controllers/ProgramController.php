@@ -29,7 +29,7 @@ class ProgramController extends Controller
 
     public function store(Request $request){
         try {
-            // Validasi data
+
             $data = $request->validate([
                 'name' => 'required|string|max:255',
                 'label' => 'required|string|max:255',
@@ -37,7 +37,7 @@ class ProgramController extends Controller
                 'referral_required' => 'required',
             ]);
     
-            // Simpan data ke database
+
             Program::create($data);
     
             return redirect()->back()->with('success','Program berhasil ditambahkan.');
@@ -62,7 +62,6 @@ class ProgramController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Validasi data
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'label' => 'required|string|max:255',
@@ -71,18 +70,15 @@ class ProgramController extends Controller
             'status' => 'required|in:active,inactive',
         ]);
 
-        // Cari program berdasarkan ID
+
         $program = Program::find($id);
 
         if (!$program) {
-            // Jika program tidak ditemukan, redirect dengan pesan error
             return redirect()->route('programs.index')->with('error', 'Program tidak ditemukan.');
         }
 
-        // Update data program
         $program->update($data);
 
-        // Redirect ke halaman index dengan pesan sukses
         return redirect()->route('programs.index')->with('success', 'Program berhasil diperbarui.');
     }
 

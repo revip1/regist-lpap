@@ -82,7 +82,7 @@
                         cancelButtonText: 'Batal'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            form.submit(); // Hanya submit form jika user menekan "Ya, hapus!"
+                            form.submit();
                         }
                     });
                 }

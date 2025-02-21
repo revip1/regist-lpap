@@ -14,24 +14,23 @@ class UserDetailController extends Controller
     {
         $query = UserDetail::query()->with(['program', 'batch', 'user']);
 
-        // Filter berdasarkan nama
         if ($request->filled('search_name')) {
             $query->where('name', 'like', '%' . $request->search_name . '%');
         }
 
-        // Filter berdasarkan program
+
         if ($request->filled('program_id')) {
             $query->where('program_id', $request->program_id);
         }
 
-        // Filter berdasarkan role (company atau individu)
+
         if ($request->filled('user_role')) {
             if ($request->user_role == 'company') {
                 $query->whereHas('user', function ($q) {
                     $q->where('role', 'company');
                 });
             } elseif ($request->user_role == 'user') {
-                // Menampilkan data tanpa company, termasuk jika user tidak ditemukan di tabel users
+
                 $query->where(function ($q) {
                     $q->whereDoesntHave('user') // Jika tidak ada user terkait
                     ->orWhereHas('user', function ($subQuery) {
