@@ -13,6 +13,7 @@ class ProgramController extends Controller
         return view('programs.index', compact('programs'));
     }
 
+
     public function show($id){
         $program = Program::find($id);
         if($program){
@@ -67,6 +68,7 @@ class ProgramController extends Controller
             'label' => 'required|string|max:255',
             'description' => 'required|string',
             'referral_required' => 'required',
+            'status' => 'required|in:active,inactive',
         ]);
 
         // Cari program berdasarkan ID
@@ -85,13 +87,16 @@ class ProgramController extends Controller
     }
 
 
-    public function destroy($id){
+    public function destroy($id)
+    {
         $program = Program::find($id);
-        if($program){
-            $program->delete();
-            return redirect()->route('programs.index')->with('success', 'Program telah dihapus.');
+        if ($program) {
+            $program->update(['status' => 'inactive']);
+
+            return redirect()->route('programs.index')->with('success', 'Program telah dinonaktifkan.');
         } else {
             return redirect()->route('programs.index')->with('error', 'Program tidak ditemukan.');
         }
     }
+
 }
